@@ -1,0 +1,8 @@
+{
+  "name": "lr-countrywear",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Loja + ERP operacional LR Country Wear",
+  "scripts": {"dev":"npx netlify dev"},
+  "engines": {"node": ">=18"}
+}
