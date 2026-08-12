@@ -1,0 +1,15 @@
+/* Uploaded LR hero: preserve source proportions; responsive crop only. */
+.premium-hero {
+  background-color: #080503;
+  background-image: url("../demo/hero-user.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.premium-hero > .hero-media {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  .premium-hero { background-position: 61% center; }
+}
