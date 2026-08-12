@@ -1,0 +1,42 @@
+/* Correções visuais da vitrine — carregado por último. */
+
+/* O modal de produto usa fundo claro; force os controles nativos a também
+   usarem tema claro para não herdar texto branco do tema geral escuro. */
+.product-modal-copy .variant-select,
+.product-modal-copy select,
+.variant-group select {
+  color: #21160f !important;
+  background-color: #ffffff !important;
+  border-color: #cbbdae !important;
+  color-scheme: light !important;
+  -webkit-text-fill-color: #21160f !important;
+}
+
+.product-modal-copy .variant-select option,
+.product-modal-copy select option,
+.variant-group select option,
+.product-modal-copy .variant-select optgroup,
+.variant-group select optgroup {
+  color: #21160f !important;
+  background: #ffffff !important;
+  -webkit-text-fill-color: #21160f !important;
+}
+
+.product-modal-copy .variant-select:focus,
+.variant-group select:focus {
+  outline: 2px solid rgba(185, 133, 61, .28);
+  outline-offset: 1px;
+  border-color: #b9853d !important;
+}
+
+/* Mantém labels, disponibilidade e observações legíveis no painel claro. */
+.product-modal-copy,
+.product-modal-copy .variant-group label,
+.product-modal-copy .availability,
+.product-modal-copy .stock-note {
+  color: #21160f;
+}
+
+.product-modal-copy .description {
+  color: #74675e;
+}
