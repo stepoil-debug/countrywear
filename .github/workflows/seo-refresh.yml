@@ -11,6 +11,7 @@ on:
       - 'data/marketplaces.json'
       - 'scripts/build_seo.py'
       - 'scripts/apply_marketplaces.py'
+      - 'scripts/remove_top_promo.py'
 
 permissions:
   contents: write
@@ -31,6 +32,8 @@ jobs:
         run: python scripts/build_seo.py
       - name: Apply marketplace channels
         run: python scripts/apply_marketplaces.py
+      - name: Remove top free shipping promo
+        run: python scripts/remove_top_promo.py
       - name: Commit SEO output
         run: |
           git config user.name "github-actions[bot]"
