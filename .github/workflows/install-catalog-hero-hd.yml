@@ -1,0 +1,53 @@
+name: Install catalog hero HD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/hero-hd-source/READY'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild HD catalog hero
+        run: |
+          cat \
+            assets/hero-hd-source/c00.txt \
+            assets/hero-hd-source/c01.txt \
+            assets/hero-hd-source/c02.txt \
+            assets/hero-hd-source/c03.txt \
+            assets/hero-hd-source/c04a.txt \
+            assets/hero-hd-source/c04b.txt \
+            assets/hero-hd-source/c04c.txt \
+            assets/hero-hd-source/c04d.txt \
+            assets/hero-hd-source/c05.txt \
+            > /tmp/catalog-hero.b64
+          base64 -d /tmp/catalog-hero.b64 > assets/hero/pronta-entrega-horse.webp
+          test "$(stat -c%s assets/hero/pronta-entrega-horse.webp)" = "60810"
+          test "$(head -c 4 assets/hero/pronta-entrega-horse.webp)" = "RIFF"
+
+      - name: Clean reconstruction source
+        run: |
+          rm -rf assets/hero-hd-source
+          rm -f .github/workflows/install-catalog-hero-hd.yml
+
+      - name: Commit HD hero
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "feat: install HD catalog hero image"
+            git push
+          fi
