@@ -1,0 +1,78 @@
+name: Install uploaded LR hero
+
+on:
+  push:
+    paths:
+      - 'assets/hero-source/READY'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild uploaded WebP
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat \
+            assets/demo/hero-user-a.txt \
+            assets/hero-source/m10-18.txt \
+            assets/hero-source/m18-26.txt \
+            assets/hero-source/m26-34.txt \
+            assets/hero-source/m34-42.txt \
+            assets/hero-source/m42-45.txt \
+            assets/demo/hero-user-s01.txt \
+            assets/hero-source/m60-68.txt \
+            assets/hero-source/m68-75.txt \
+            assets/demo/hero-user-s03.txt \
+            assets/demo/hero-user-s04.txt \
+            assets/demo/hero-user-s05.txt \
+            assets/demo/hero-user-s06.txt \
+            | tr -d '\n\r ' | base64 --decode > assets/demo/hero-user.webp
+          test "$(stat -c%s assets/demo/hero-user.webp)" -eq 100714
+          file assets/demo/hero-user.webp | grep -qi 'Web/P'
+
+      - name: Apply hero without distortion
+        shell: bash
+        run: |
+          cat > assets/css/hero-image.css <<'CSS'
+          /* Uploaded LR hero: preserve source proportions; responsive crop only. */
+          .premium-hero {
+            background-color: #080503;
+            background-image: url("../demo/hero-user.webp");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+          }
+          .premium-hero > .hero-media {
+            opacity: 0 !important;
+            pointer-events: none;
+          }
+          @media (max-width: 760px) {
+            .premium-hero { background-position: 61% center; }
+          }
+          CSS
+          grep -q 'hero-image.css' assets/css/styles.css || printf '\n@import url("./hero-image.css");\n' >> assets/css/styles.css
+
+      - name: Clean temporary source chunks
+        shell: bash
+        run: |
+          rm -rf assets/hero-source
+          rm -f assets/demo/hero-user-a.txt assets/demo/hero-user-part1.txt
+          rm -f assets/demo/hero-user-s01.txt assets/demo/hero-user-s02.txt assets/demo/hero-user-s03.txt assets/demo/hero-user-s04.txt assets/demo/hero-user-s05.txt assets/demo/hero-user-s06.txt
+
+      - name: Commit final hero
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'fix: use uploaded sunset image in storefront hero'
+          git push
