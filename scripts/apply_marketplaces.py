@@ -31,13 +31,42 @@ def marketplace_button(key: str, css_class: str) -> str:
     return f'<button class="btn marketplace-btn {css_class} is-pending" type="button" disabled aria-disabled="true" data-marketplace="{esc(key)}">Abrir loja {label} <span>Em breve</span></button>'
 
 
+def replace_public_shipping_copy() -> None:
+    replacements = [
+        ("Envios pelos Correios", "Envio para todo o Brasil"),
+        ("Pedidos para outras cidades do Brasil", "Pedidos com envio para todo o Brasil"),
+        ("também envia pedidos pelos Correios para outras cidades do Brasil", "também envia pedidos para todo o Brasil"),
+        ("Enviamos pelos Correios e atendemos pelo WhatsApp.", "Enviamos para todo o Brasil e atendemos pelo WhatsApp."),
+        ("e envios pelos Correios.", "e envio para todo o Brasil."),
+        ("e envios pelos Correios", "e envio para todo o Brasil"),
+        ("Para outras cidades, enviamos pelos Correios.", "Também enviamos para todo o Brasil."),
+        ("Para compras fora da região, a LR também envia pelos Correios.", "A LR também envia pedidos para todo o Brasil."),
+        ("com envio pelos Correios", "com envio para todo o Brasil"),
+    ]
+    files = [
+        ROOT / "index.html",
+        ROOT / "pronta-entrega.html",
+        ROOT / "sob-encomenda.html",
+        ROOT / "loja-country-rio-das-ostras.html",
+        ROOT / "loja-country-macae.html",
+    ]
+    files.extend((ROOT / "produtos").glob("*.html"))
+    for path in files:
+        if not path.exists():
+            continue
+        content = path.read_text(encoding="utf-8")
+        for old, new in replacements:
+            content = content.replace(old, new)
+        path.write_text(content, encoding="utf-8")
+
+
 ml_btn = marketplace_button("mercadoLivre", "marketplace-btn--ml")
 shopee_btn = marketplace_button("shopee", "marketplace-btn--shopee")
 
-TITLE = f"Correios, Mercado Livre e Shopee | Moda Country | {STORE}"
+TITLE = f"Envio para todo o Brasil | Mercado Livre e Shopee | {STORE}"
 DESCRIPTION = (
     "Compre moda country na LR Country Wear com pronta entrega em Rio das Ostras e Macaé, "
-    "envios pelos Correios e estrutura preparada para as lojas da LR no Mercado Livre e Shopee."
+    "envio para todo o Brasil e estrutura preparada para as lojas da LR no Mercado Livre e Shopee."
 )
 
 schema = {
@@ -101,9 +130,9 @@ page = f'''<!doctype html>
   <main>
     <section class="seo-location-hero marketplace-hero">
       <div class="container">
-        <p class="eyebrow">Compre pelo canal que preferir</p>
-        <h1>Correios, Mercado Livre e Shopee</h1>
-        <p>A LR Country Wear atende Rio das Ostras e Macaé com pronta entrega e também envia para outras cidades pelos Correios. A estrutura das lojas no Mercado Livre e na Shopee já está preparada e os links serão ativados quando os canais estiverem publicados.</p>
+        <p class="eyebrow">Atendimento para todo o Brasil</p>
+        <h1>Moda country com envio para todo o Brasil</h1>
+        <p>A LR Country Wear atende Rio das Ostras e Macaé com pronta entrega e também envia pedidos para todo o Brasil. Você poderá comprar também pelas lojas oficiais da LR no Mercado Livre e na Shopee assim que esses canais forem ativados.</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="./pronta-entrega.html">Ver produtos →</a>
           <a class="btn btn-whatsapp" href="https://wa.me/{PHONE}" target="_blank" rel="noopener noreferrer">Falar com a LR ↗</a>
@@ -120,8 +149,8 @@ page = f'''<!doctype html>
         </div>
         <div class="marketplace-grid">
           <article class="marketplace-card marketplace-card--site">
-            <div class="marketplace-brand"><span>LR</span><div><small>Canal principal</small><strong>Site LR + Correios</strong></div></div>
-            <p>Escolha os produtos no site, envie a sacola pelo WhatsApp e confirme estoque, CEP, prazo e frete. Para fora da região, o envio é feito pelos Correios.</p>
+            <div class="marketplace-brand"><span>LR</span><div><small>Canal principal</small><strong>Site LR + Envio nacional</strong></div></div>
+            <p>Escolha os produtos no site, envie a sacola pelo WhatsApp e confirme estoque, CEP, prazo e frete. Os pedidos podem ser enviados para todo o Brasil.</p>
             <div class="marketplace-status is-live"><i></i> Disponível agora</div>
             <a class="btn btn-gold marketplace-btn" href="./pronta-entrega.html">Comprar no site →</a>
           </article>
@@ -150,8 +179,8 @@ page = f'''<!doctype html>
           <p>Escolha os produtos disponíveis, selecione tamanho e variação, adicione à sacola e envie o resumo pelo WhatsApp. A equipe confirma estoque, prazo e condições antes da finalização.</p>
         </article>
         <article>
-          <h2>Prazo e frete pelos Correios</h2>
-          <p>O prazo e o valor do envio variam conforme CEP, peso e volume do pedido. A informação final é confirmada no atendimento antes da postagem.</p>
+          <h2>Prazo e frete para todo o Brasil</h2>
+          <p>O prazo e o valor do envio variam conforme CEP, peso e volume do pedido. A informação final é confirmada no atendimento antes do envio.</p>
         </article>
       </div>
     </section>
@@ -167,5 +196,6 @@ page = f'''<!doctype html>
 </html>
 '''
 
+replace_public_shipping_copy()
 (ROOT / "envios-correios.html").write_text(page, encoding="utf-8")
-print("Marketplace purchase channels applied to envios-correios.html")
+print("Marketplace purchase channels and nationwide shipping copy applied")
