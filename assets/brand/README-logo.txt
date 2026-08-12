@@ -1,1 +1,0 @@
-LR compact logo asset is managed as a binary repository blob.
