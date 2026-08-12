@@ -2,11 +2,13 @@
   "mercadoLivre": {
     "label": "Mercado Livre",
     "url": "",
-    "status": "Em breve"
+    "status": "Em breve",
+    "enabled": true
   },
   "shopee": {
     "label": "Shopee",
     "url": "",
-    "status": "Em breve"
+    "status": "Em breve",
+    "enabled": true
   }
 }
