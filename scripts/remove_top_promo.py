@@ -8,4 +8,4 @@ if path.exists():
     content = content.replace('<span>✦ Frete grátis para todo o Brasil em compras acima de R$ 399,90</span>', '')
     path.write_text(content, encoding="utf-8")
 
-print("Top free-shipping promo removed")
+print("Top free-shipping promo removed from storefront")
