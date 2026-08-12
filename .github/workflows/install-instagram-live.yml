@@ -1,0 +1,79 @@
+name: Install live Instagram profile
+
+on:
+  push:
+    paths:
+      - 'assets/instagram-live/READY'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Replace demo Instagram gallery with live public profile
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          index = Path('index.html')
+          html = index.read_text(encoding='utf-8')
+
+          new_section = '''<section class="instagram-section instagram-live-section" id="sobre"><div class="container"><div class="ornament-title reveal"><span></span><div><p class="eyebrow">@lr_countrywear</p><h2>Siga a LR no Instagram</h2></div><span></span></div><div class="instagram-live-wrap reveal"><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/lr_countrywear/" data-instgrm-version="14"><a href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer">Ver perfil @lr_countrywear no Instagram</a></blockquote></div><p class="instagram-live-note">Conteúdo exibido diretamente do perfil público oficial da LR Country Wear.</p><a class="btn btn-gold instagram-btn" href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer">Abrir Instagram <span>↗</span></a></div></section>'''
+
+          html2, count = re.subn(
+              r'<section class="instagram-section" id="sobre">.*?</section>',
+              new_section,
+              html,
+              count=1,
+              flags=re.S,
+          )
+          if count != 1:
+              raise SystemExit(f'Instagram section replacement failed: {count}')
+
+          embed_script = '<script async src="https://www.instagram.com/embed.js"></script>'
+          store_script = '<script src="./assets/js/store.js" defer></script>'
+          if embed_script not in html2:
+              if store_script not in html2:
+                  raise SystemExit('store.js script marker not found')
+              html2 = html2.replace(store_script, embed_script + store_script, 1)
+
+          index.write_text(html2, encoding='utf-8')
+
+          css = Path('assets/css/instagram-live.css')
+          css.write_text('''/* Instagram oficial: perfil público renderizado pelo embed do próprio Instagram. */
+          .instagram-live-section{overflow:hidden}
+          .instagram-live-wrap{width:100%;max-width:980px;margin:28px auto 18px;display:flex;justify-content:center;align-items:flex-start;min-height:420px}
+          .instagram-live-wrap .instagram-media{width:100%!important;max-width:980px!important;min-width:0!important;margin:0!important;background:#fff!important;border:1px solid rgba(185,133,61,.35)!important;border-radius:12px!important;overflow:hidden!important}
+          .instagram-live-wrap iframe{width:100%!important;max-width:100%!important;min-width:0!important;margin:0 auto!important}
+          .instagram-live-note{margin:0 auto 18px;text-align:center;color:#8e806f;font-size:.72rem;letter-spacing:.02em}
+          .instagram-live-section .instagram-btn{display:flex;width:max-content;margin:0 auto}
+          @media(max-width:760px){.instagram-live-wrap{min-height:360px;margin-top:20px}.instagram-live-note{padding:0 18px;font-size:.68rem}}
+          ''', encoding='utf-8')
+
+          styles = Path('assets/css/styles.css')
+          styles_text = styles.read_text(encoding='utf-8')
+          import_line = '@import url("./instagram-live.css");'
+          if import_line not in styles_text:
+              if not styles_text.endswith('\n'):
+                  styles_text += '\n'
+              styles_text += import_line + '\n'
+              styles.write_text(styles_text, encoding='utf-8')
+
+          Path('assets/instagram-live/READY').unlink(missing_ok=True)
+          PY
+
+      - name: Commit live Instagram section
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html assets/css/styles.css assets/css/instagram-live.css assets/instagram-live/READY
+          git commit -m "feat: show official live Instagram profile" || exit 0
+          git push
