@@ -8,7 +8,9 @@ on:
       - 'data/catalog.json'
       - 'data/settings.json'
       - 'data/seo.json'
+      - 'data/marketplaces.json'
       - 'scripts/build_seo.py'
+      - 'scripts/apply_marketplaces.py'
 
 permissions:
   contents: write
@@ -27,6 +29,8 @@ jobs:
           python-version: '3.12'
       - name: Generate SEO pages
         run: python scripts/build_seo.py
+      - name: Apply marketplace channels
+        run: python scripts/apply_marketplaces.py
       - name: Commit SEO output
         run: |
           git config user.name "github-actions[bot]"
@@ -35,6 +39,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No SEO changes"
           else
-            git commit -m "feat: refresh SEO and local landing pages"
+            git commit -m "feat: refresh SEO, local pages and marketplaces"
             git push
           fi
