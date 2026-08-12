@@ -1,0 +1,12 @@
+{
+  "mercadoLivre": {
+    "label": "Mercado Livre",
+    "url": "",
+    "status": "Em breve"
+  },
+  "shopee": {
+    "label": "Shopee",
+    "url": "",
+    "status": "Em breve"
+  }
+}
