@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "orders": [
+    {
+      "id": "LR-00841",
+      "createdAt": "2026-08-12T09:18:00-03:00",
+      "customerId": "cli-001",
+      "customerName": "Mariana Alves",
+      "phone": "5522998761122",
+      "source": "WhatsApp",
+      "status": "atendimento",
+      "items": [
+        {"productId":"camisa-texas-premium","name":"Camisa Texas Premium","variant":"G / Preto","qty":2,"unitPrice":189.9},
+        {"productId":"cinto-longhorn-couro","name":"Cinto Longhorn Couro","variant":"100 cm / Marrom","qty":1,"unitPrice":159.9}
+      ],
+      "total": 539.7,
+      "notes": "Cliente pediu confirmação do envio ainda hoje."
+    },
+    {
+      "id": "LR-00840",
+      "createdAt": "2026-08-11T16:42:00-03:00",
+      "customerId": "cli-002",
+      "customerName": "Rafael Monteiro",
+      "phone": "5522997644431",
+      "source": "WhatsApp",
+      "status": "confirmado",
+      "items": [
+        {"productId":"bota-western-classic","name":"Bota Western Classic","variant":"42 / Café / Bico quadrado","qty":1,"unitPrice":449.9}
+      ],
+      "total": 449.9,
+      "notes": "Separar tamanho 42."
+    },
+    {
+      "id": "LR-00839",
+      "createdAt": "2026-08-11T11:05:00-03:00",
+      "customerId": "cli-003",
+      "customerName": "Camila Duarte",
+      "phone": "5522998110027",
+      "source": "Instagram",
+      "status": "separacao",
+      "items": [
+        {"productId":"jaqueta-denim-lr","name":"Jaqueta Denim LR","variant":"M / Denim escuro","qty":1,"unitPrice":329.9},
+        {"productId":"camisa-texas-premium","name":"Camisa Texas Premium","variant":"M / Preto","qty":1,"unitPrice":189.9}
+      ],
+      "total": 519.8,
+      "notes": "Retirada combinada para sexta-feira."
+    },
+    {
+      "id": "LR-00838",
+      "createdAt": "2026-08-10T18:25:00-03:00",
+      "customerId": "cli-004",
+      "customerName": "João Pedro Lima",
+      "phone": "5522999887744",
+      "source": "WhatsApp",
+      "status": "concluido",
+      "items": [
+        {"productId":"calca-country-black","name":"Calça Country Black","variant":"42 / Preto / Reta","qty":1,"unitPrice":239.9}
+      ],
+      "total": 239.9,
+      "notes": "Pedido concluído."
+    },
+    {
+      "id": "LR-00837",
+      "createdAt": "2026-08-09T14:12:00-03:00",
+      "customerId": "cli-005",
+      "customerName": "Letícia Nunes",
+      "phone": "5522997339180",
+      "source": "WhatsApp",
+      "status": "encomenda",
+      "items": [
+        {"productId":"bota-western-rose","name":"Bota Western Rose","variant":"37 / Café / Western Rose","qty":1,"unitPrice":479.9}
+      ],
+      "total": 479.9,
+      "notes": "Sob encomenda. Prazo informado: 20 a 25 dias."
+    }
+  ],
+  "customers": [
+    {"id":"cli-001","name":"Mariana Alves","phone":"5522998761122","instagram":"@mariana.alves","city":"Rio das Ostras/RJ","orders":3,"lastOrder":"2026-08-12","notes":"Prefere atendimento pelo WhatsApp."},
+    {"id":"cli-002","name":"Rafael Monteiro","phone":"5522997644431","instagram":"","city":"Macaé/RJ","orders":2,"lastOrder":"2026-08-11","notes":"Calça 42, bota 42."},
+    {"id":"cli-003","name":"Camila Duarte","phone":"5522998110027","instagram":"@camiladuarte","city":"Cabo Frio/RJ","orders":4,"lastOrder":"2026-08-11","notes":"Cliente recorrente."},
+    {"id":"cli-004","name":"João Pedro Lima","phone":"5522999887744","instagram":"","city":"Campos dos Goytacazes/RJ","orders":1,"lastOrder":"2026-08-10","notes":""},
+    {"id":"cli-005","name":"Letícia Nunes","phone":"5522997339180","instagram":"@leticianunes","city":"Rio de Janeiro/RJ","orders":1,"lastOrder":"2026-08-09","notes":"Pedido sob encomenda."}
+  ],
+  "media": [
+    {"id":"mid-hero","name":"Hero Country","type":"image","url":"assets/demo/hero-user.webp","usage":"Banner principal"},
+    {"id":"mid-logo","name":"Logo compacta LR","type":"image","url":"assets/brand/lr-mark-small.webp","usage":"Marca"},
+    {"id":"mid-camisas","name":"Categoria Camisas","type":"image","url":"assets/categories/camisas.webp","usage":"Categoria"},
+    {"id":"mid-botas","name":"Categoria Botas","type":"image","url":"assets/categories/botas.webp","usage":"Categoria"},
+    {"id":"mid-calcas","name":"Categoria Calças","type":"image","url":"assets/categories/calcas.webp","usage":"Categoria"},
+    {"id":"mid-chapeus","name":"Categoria Chapéus","type":"image","url":"assets/categories/chapeus.webp","usage":"Categoria"}
+  ],
+  "activities": [
+    {"at":"2026-08-12T09:18:00-03:00","type":"order","title":"Novo atendimento LR-00841","detail":"Mariana Alves iniciou um pedido pelo WhatsApp."},
+    {"at":"2026-08-12T08:52:00-03:00","type":"stock","title":"Estoque revisado","detail":"Camisa Texas Premium G ficou com 1 unidade."},
+    {"at":"2026-08-11T17:10:00-03:00","type":"product","title":"Produto destacado","detail":"Bota Western Rose marcada como lançamento."},
+    {"at":"2026-08-11T16:42:00-03:00","type":"order","title":"Pedido LR-00840 confirmado","detail":"Bota Western Classic tamanho 42 separada para Rafael."}
+  ],
+  "store": {
+    "address": "Rio das Ostras/RJ",
+    "serviceHours": "Seg. a Sex. 08h às 18h · Sáb. 08h às 13h",
+    "freeShippingFrom": 399.9,
+    "lowStockDefault": 2,
+    "orderLeadTimeDefault": "15 a 25 dias úteis",
+    "showStockOnStore": true,
+    "allowOrderWhenOut": true,
+    "currency": "BRL"
+  }
+}
