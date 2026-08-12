@@ -13,8 +13,6 @@ on:
 permissions:
   contents: write
 
-tasks: {}
-
 jobs:
   refresh:
     runs-on: ubuntu-latest
