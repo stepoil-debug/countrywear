@@ -40,3 +40,39 @@
 .product-modal-copy .description {
   color: #74675e;
 }
+
+/* Botão fechar do modal: contraste alto e área de clique confortável. */
+.product-modal-copy .close-modal,
+.product-modal .close-modal {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  border-radius: 50% !important;
+  border: 1px solid #8a6234 !important;
+  background: #21160f !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  box-shadow: 0 8px 22px rgba(33, 22, 15, .22) !important;
+  opacity: 1 !important;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease !important;
+}
+
+.product-modal-copy .close-modal:hover,
+.product-modal .close-modal:hover {
+  background: #b9853d !important;
+  border-color: #b9853d !important;
+  color: #120b07 !important;
+  -webkit-text-fill-color: #120b07 !important;
+  transform: scale(1.05);
+}
+
+.product-modal-copy .close-modal:focus-visible,
+.product-modal .close-modal:focus-visible {
+  outline: 3px solid rgba(185, 133, 61, .38) !important;
+  outline-offset: 3px !important;
+}
