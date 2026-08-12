@@ -1,0 +1,134 @@
+name: Sync Instagram images via public viewer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.deploy/instagram-imginn-sync.txt'
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  sync:
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
+
+      - name: Fetch real public posts
+        run: |
+          python - <<'PY'
+          import json, re, html, sys
+          from pathlib import Path
+          from urllib.parse import urljoin
+          import requests
+          from bs4 import BeautifulSoup
+
+          username='lr_countrywear'
+          viewer=f'https://imginn.com/{username}/'
+          ua='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          sess=requests.Session(); sess.headers.update({'User-Agent':ua,'Accept-Language':'pt-BR,pt;q=0.9,en;q=0.8'})
+          r=sess.get(viewer,timeout=25)
+          print('viewer status',r.status_code,'bytes',len(r.content),'url',r.url)
+          r.raise_for_status()
+          soup=BeautifulSoup(r.text,'html.parser')
+          candidates=[]
+          seen=set()
+
+          def add(img, post_url):
+              if not img: return
+              img=html.unescape(img).replace('\\u0026','&')
+              if img.startswith('//'): img='https:'+img
+              if not img.startswith('http'): img=urljoin(viewer,img)
+              if img in seen: return
+              low=img.lower()
+              if any(x in low for x in ['logo','favicon','avatar','profile_pic']): return
+              seen.add(img); candidates.append((img,post_url))
+
+          for a in soup.find_all('a', href=True):
+              href=a.get('href','')
+              if '/p/' not in href: continue
+              m=re.search(r'/p/([^/?#]+)/?',href)
+              post_url=f'https://www.instagram.com/p/{m.group(1)}/' if m else f'https://www.instagram.com/{username}/'
+              imgs=a.find_all('img')
+              if not imgs and a.parent: imgs=a.parent.find_all('img',limit=2)
+              for im in imgs:
+                  for k in ['src','data-src','data-original','data-lazy-src']:
+                      add(im.get(k),post_url)
+                  srcset=im.get('srcset') or im.get('data-srcset')
+                  if srcset:
+                      add(srcset.split(',')[-1].strip().split(' ')[0],post_url)
+
+          if len(candidates)<3:
+              for im in soup.find_all('img'):
+                  post_url=f'https://www.instagram.com/{username}/'
+                  parent=im.find_parent('a',href=True)
+                  if parent:
+                      m=re.search(r'/p/([^/?#]+)/?',parent.get('href',''))
+                      if m: post_url=f'https://www.instagram.com/p/{m.group(1)}/'
+                  for k in ['src','data-src','data-original','data-lazy-src']:
+                      add(im.get(k),post_url)
+                  srcset=im.get('srcset') or im.get('data-srcset')
+                  if srcset: add(srcset.split(',')[-1].strip().split(' ')[0],post_url)
+
+          if len(candidates)<3:
+              for u in re.findall(r'https?://[^\"\'<> ]+\.(?:jpg|jpeg|webp)(?:\?[^\"\'<> ]*)?',r.text,re.I):
+                  add(u,f'https://www.instagram.com/{username}/')
+
+          print('candidate images',len(candidates))
+          out=Path('assets/instagram'); out.mkdir(parents=True,exist_ok=True)
+          posts=[]
+          for img_url, post_url in candidates:
+              if len(posts)>=6: break
+              try:
+                  rr=sess.get(img_url,headers={'Referer':viewer,'User-Agent':ua},timeout=25)
+                  ct=rr.headers.get('content-type','')
+                  if rr.status_code!=200 or 'image' not in ct or len(rr.content)<5000:
+                      print('skip',rr.status_code,ct,len(rr.content),img_url[:120]); continue
+                  idx=len(posts)+1
+                  p=out/f'post-{idx}.jpg'; p.write_bytes(rr.content)
+                  posts.append({'image':f'assets/instagram/post-{idx}.jpg','url':post_url})
+                  print('saved',idx,len(rr.content),post_url)
+              except Exception as e:
+                  print('download failed',repr(e),img_url[:120])
+
+          if len(posts)<3:
+              raise SystemExit(f'Only {len(posts)} usable public images found')
+
+          for p in out.glob('post-*.jpg'):
+              try:
+                  n=int(p.stem.split('-')[1])
+                  if n>len(posts): p.unlink()
+              except Exception: pass
+          Path('data/instagram.json').write_text(json.dumps({'username':username,'profile':f'https://www.instagram.com/{username}/','posts':posts},ensure_ascii=False,indent=2),encoding='utf-8')
+          PY
+
+      - name: Commit images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/instagram data/instagram.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore: refresh real LR Instagram images"
+            git push
+          fi
+
+      - name: Publish Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml
