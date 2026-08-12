@@ -1,0 +1,115 @@
+/* Compact hero sizing: preserve impact without consuming the full first viewport. */
+.premium-hero{
+  min-height:560px;
+  height:min(68svh,700px);
+  max-height:700px;
+}
+.premium-hero .hero-content{
+  padding-top:72px;
+}
+.premium-hero .hero-copy{
+  max-width:560px;
+  margin-top:12px;
+}
+.premium-hero .hero .eyebrow,
+.premium-hero .eyebrow{
+  font-size:.68rem;
+  margin-bottom:14px;
+}
+.premium-hero h1{
+  font-size:clamp(3.9rem,6.1vw,6rem);
+  line-height:.88;
+  margin-bottom:18px;
+}
+.premium-hero .hero-copy>p:not(.eyebrow){
+  max-width:455px;
+  font-size:.88rem;
+  line-height:1.6;
+}
+.premium-hero .hero-actions{
+  margin-top:24px;
+}
+.premium-hero .hero-seal{
+  width:82px;
+  height:82px;
+  bottom:52px;
+}
+.premium-hero .hero-seal strong{font-size:1.75rem}
+.premium-hero .scroll-cue{bottom:12px}
+.benefits-wrap{margin-top:-34px}
+
+@media (max-width: 980px){
+  .premium-hero{
+    min-height:530px;
+    height:64svh;
+    max-height:620px;
+  }
+  .premium-hero h1{font-size:clamp(3.4rem,8vw,5rem)}
+  .premium-hero .hero-content{padding-top:66px}
+  .premium-hero .hero-seal{right:14%;bottom:46px}
+}
+
+@media (max-width: 760px){
+  .premium-hero{
+    min-height:500px;
+    height:66svh;
+    max-height:590px;
+  }
+  .premium-hero .hero-content{
+    align-items:flex-end;
+    padding-top:86px;
+    padding-bottom:74px;
+  }
+  .premium-hero .hero-copy{
+    max-width:390px;
+    margin:0;
+  }
+  .premium-hero .eyebrow{
+    font-size:.58rem;
+    letter-spacing:.28em;
+    margin-bottom:10px;
+  }
+  .premium-hero h1{
+    font-size:clamp(3rem,13.5vw,4.35rem);
+    line-height:.86;
+    margin-bottom:14px;
+  }
+  .premium-hero .hero-copy>p:not(.eyebrow){
+    max-width:330px;
+    font-size:.76rem;
+    line-height:1.5;
+  }
+  .premium-hero .hero-actions{
+    gap:8px;
+    margin-top:18px;
+  }
+  .premium-hero .hero-actions .btn{
+    min-height:46px;
+    padding:0 18px;
+    font-size:.58rem;
+  }
+  .premium-hero .hero-seal{display:none}
+  .premium-hero .scroll-cue{display:none}
+  .benefits-wrap{margin-top:0}
+}
+
+@media (max-width: 430px){
+  .premium-hero{
+    min-height:470px;
+    height:62svh;
+    max-height:540px;
+  }
+  .premium-hero .hero-content{
+    padding-bottom:46px;
+  }
+  .premium-hero h1{
+    font-size:clamp(2.75rem,13vw,3.75rem);
+  }
+  .premium-hero .hero-actions{
+    flex-wrap:wrap;
+  }
+  .premium-hero .hero-actions .btn{
+    min-width:0;
+    flex:0 1 auto;
+  }
+}
