@@ -1,0 +1,11 @@
+/* ERP visibility hotfix — keep the login and application as exclusive screens. */
+[hidden]{display:none!important}
+.login-view[hidden],.erp-shell[hidden]{display:none!important}
+
+/* Prevent the administrative shell from affecting the login layout before authentication. */
+body:has(#loginView:not([hidden])) #appView{display:none!important}
+
+@media (max-width: 760px){
+  .login-view{min-height:100dvh}
+  .login-card{min-height:100dvh}
+}
