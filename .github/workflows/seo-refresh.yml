@@ -1,0 +1,42 @@
+name: Refresh SEO pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog.json'
+      - 'data/settings.json'
+      - 'data/seo.json'
+      - 'scripts/build_seo.py'
+
+permissions:
+  contents: write
+
+tasks: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate SEO pages
+        run: python scripts/build_seo.py
+      - name: Commit SEO output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html pronta-entrega.html sob-encomenda.html assets/js/store.js robots.txt sitemap.xml produtos loja-country-rio-das-ostras.html loja-country-macae.html envios-correios.html
+          if git diff --cached --quiet; then
+            echo "No SEO changes"
+          else
+            git commit -m "feat: refresh SEO and local landing pages"
+            git push
+          fi
