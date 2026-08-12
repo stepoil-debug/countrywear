@@ -1,0 +1,48 @@
+name: Install real Instagram image grid
+
+on:
+  push:
+    paths:
+      - '.deploy/install-instagram-grid.txt'
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace broken profile embed with real post images
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          replacement='''<section class="instagram-section" id="sobre"><div class="container"><div class="ornament-title reveal"><span></span><div><p class="eyebrow">@lr_countrywear</p><h2>Siga a LR no Instagram</h2></div><span></span></div><div class="instagram-grid reveal"><a href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer"><img src="./assets/instagram/post-1.jpg" alt="Publicação da LR Country Wear no Instagram" loading="lazy"></a><a href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer"><img src="./assets/instagram/post-2.jpg" alt="Publicação da LR Country Wear no Instagram" loading="lazy"></a><a href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer"><img src="./assets/instagram/post-3.jpg" alt="Publicação da LR Country Wear no Instagram" loading="lazy"></a><a href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer"><img src="./assets/instagram/post-4.jpg" alt="Publicação da LR Country Wear no Instagram" loading="lazy"></a><a href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer"><img src="./assets/instagram/post-5.jpg" alt="Publicação da LR Country Wear no Instagram" loading="lazy"></a></div><a class="btn btn-gold instagram-btn" href="https://www.instagram.com/lr_countrywear/" target="_blank" rel="noopener noreferrer">Ver mais no Instagram <span>↗</span></a></div></section>'''
+          pattern=r'<section class="instagram-section instagram-live-section" id="sobre">.*?</section>(?=\s*</main>)'
+          ns,n=re.subn(pattern,replacement,s,count=1,flags=re.S)
+          if n!=1:
+              raise SystemExit(f'Instagram live section not found or ambiguous: {n}')
+          ns=ns.replace('<script async src="https://www.instagram.com/embed.js"></script>','')
+          p.write_text(ns,encoding='utf-8')
+          PY
+
+      - name: Commit storefront fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "fix: show real Instagram photos without broken embed"
+          git push
+
+      - name: Publish Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml
