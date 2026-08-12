@@ -11,6 +11,30 @@
   overflow: hidden !important;
 }
 
+/* Hero das páginas de catálogo: usa a foto enviada sem esticar a imagem. */
+body[data-page="catalog"] .catalog-hero,
+body[data-page="catalog"] .catalog-hero--order {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  background-color: #0b0907 !important;
+  background-image:
+    linear-gradient(90deg, rgba(8,6,4,.82) 0%, rgba(8,6,4,.56) 45%, rgba(8,6,4,.30) 100%),
+    linear-gradient(180deg, rgba(8,6,4,.18) 0%, rgba(8,6,4,.08) 45%, rgba(8,6,4,.40) 100%),
+    url("../hero/pronta-entrega-horse.webp") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center 46% !important;
+}
+
+@media (max-width: 768px) {
+  body[data-page="catalog"] .catalog-hero,
+  body[data-page="catalog"] .catalog-hero--order {
+    min-height: 260px;
+    background-position: 58% center !important;
+  }
+}
+
 /* O modal de produto usa fundo claro; force os controles nativos a também
    usarem tema claro para não herdar texto branco do tema geral escuro. */
 .product-modal-copy .variant-select,
