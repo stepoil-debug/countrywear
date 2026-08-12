@@ -1,4 +1,7 @@
-/* Instagram oficial — regras do embed legado e da grade estática com posts reais. */
+/* Instagram oficial — posts reais do perfil público LR Country Wear. */
+.instagram-section{overflow:hidden}
+
+/* Mantém compatibilidade com o embed legado, caso volte a ser usado. */
 .instagram-live-section{overflow:hidden}
 .instagram-live-wrap{width:100%;max-width:980px;margin:28px auto 18px;display:flex;justify-content:center;align-items:flex-start;min-height:420px}
 .instagram-live-wrap .instagram-media{width:100%!important;max-width:980px!important;min-width:0!important;margin:0!important;background:#fff!important;border:1px solid rgba(185,133,61,.35)!important;border-radius:12px!important;overflow:hidden!important}
@@ -6,27 +9,48 @@
 .instagram-live-note{margin:0 auto 18px;text-align:center;color:#8e806f;font-size:.72rem;letter-spacing:.02em}
 .instagram-live-section .instagram-btn{display:flex;width:max-content;margin:0 auto}
 
-/* Grade atual com as imagens reais baixadas do perfil público.
-   Mostra 100% de cada foto, sem recorte. */
+/* Carrossel automático: imagens mais próximas e sempre em movimento. */
 .instagram-section .instagram-grid{
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:10px;
-  align-items:stretch;
+  position:relative;
+  display:block;
+  width:min(1080px,100%);
+  height:198px;
+  margin:22px auto 18px;
+  overflow:hidden;
 }
 .instagram-section .instagram-grid>a{
-  position:relative;
+  position:absolute;
+  top:4px;
+  left:calc(100% + 12px);
+  width:186px;
+  height:186px;
   display:flex;
   align-items:center;
   justify-content:center;
-  aspect-ratio:1/1;
   overflow:hidden;
   background:#100b07;
-  border:1px solid rgba(200,148,69,.28);
+  border:1px solid rgba(200,148,69,.32);
+  box-shadow:0 10px 28px rgba(0,0,0,.18);
+  animation:instagramPass 24s linear infinite;
+  will-change:left;
+  transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease;
+}
+.instagram-section .instagram-grid>a:nth-child(1){animation-delay:0s}
+.instagram-section .instagram-grid>a:nth-child(2){animation-delay:-4.8s}
+.instagram-section .instagram-grid>a:nth-child(3){animation-delay:-9.6s}
+.instagram-section .instagram-grid>a:nth-child(4){animation-delay:-14.4s}
+.instagram-section .instagram-grid>a:nth-child(5){animation-delay:-19.2s}
+
+.instagram-section .instagram-grid:hover>a{animation-play-state:paused}
+.instagram-section .instagram-grid>a:hover{
+  z-index:3;
+  transform:translateY(-3px);
+  border-color:rgba(228,184,102,.68);
+  box-shadow:0 15px 36px rgba(0,0,0,.3);
 }
 .instagram-section .instagram-grid>a>img{
-  width:100%!important;
-  height:100%!important;
+  width:calc(100% - 8px)!important;
+  height:calc(100% - 8px)!important;
   max-width:100%!important;
   object-fit:contain!important;
   object-position:center center!important;
@@ -36,14 +60,52 @@
 }
 .instagram-section .instagram-grid>a:hover>img{
   transform:none!important;
-  filter:brightness(1.04);
+  filter:brightness(1.05);
 }
 
-@media(max-width:980px){
-  .instagram-section .instagram-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@keyframes instagramPass{
+  from{left:calc(100% + 12px)}
+  to{left:-198px}
 }
+
+/* Tablet: mantém o movimento com cards um pouco menores. */
+@media(max-width:980px){
+  .instagram-section .instagram-grid{height:178px;width:min(900px,100%)}
+  .instagram-section .instagram-grid>a{width:166px;height:166px}
+  @keyframes instagramPass{
+    from{left:calc(100% + 10px)}
+    to{left:-178px}
+  }
+}
+
+/* Mobile: vira faixa de arrastar com o dedo, sem prender as fotos em grade. */
 @media(max-width:760px){
   .instagram-live-wrap{min-height:360px;margin-top:20px}
   .instagram-live-note{padding:0 18px;font-size:.68rem}
-  .instagram-section .instagram-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .instagram-section .instagram-grid{
+    position:relative;
+    display:flex;
+    gap:10px;
+    width:100%;
+    height:auto;
+    margin:18px auto 16px;
+    padding:2px 2px 8px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .instagram-section .instagram-grid::-webkit-scrollbar{display:none}
+  .instagram-section .instagram-grid>a,
+  .instagram-section .instagram-grid>a:nth-child(n){
+    position:relative;
+    top:auto;
+    left:auto;
+    flex:0 0 138px;
+    width:138px;
+    height:138px;
+    animation:none;
+    scroll-snap-align:start;
+  }
 }
