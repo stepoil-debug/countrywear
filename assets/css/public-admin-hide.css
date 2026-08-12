@@ -1,0 +1,11 @@
+.account-icon,
+.footer a[href="./admin/"],
+.mobile-dock a[href="./admin/"]{
+  display:none!important;
+}
+
+@media (max-width: 760px){
+  .mobile-dock{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+}
