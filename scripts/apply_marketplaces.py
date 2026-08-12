@@ -149,21 +149,21 @@ page = f'''<!doctype html>
         </div>
         <div class="marketplace-grid">
           <article class="marketplace-card marketplace-card--site">
-            <div class="marketplace-brand"><span>LR</span><div><small>Canal principal</small><strong>Site LR + Envio nacional</strong></div></div>
+            <div class="marketplace-brand"><div class="marketplace-logo marketplace-logo--lr"><img src="./assets/brand/lr-mark-small.webp" alt="LR Country Wear"></div><div><small>Canal principal</small><strong>Site LR + Envio nacional</strong></div></div>
             <p>Escolha os produtos no site, envie a sacola pelo WhatsApp e confirme estoque, CEP, prazo e frete. Os pedidos podem ser enviados para todo o Brasil.</p>
             <div class="marketplace-status is-live"><i></i> Disponível agora</div>
             <a class="btn btn-gold marketplace-btn" href="./pronta-entrega.html">Comprar no site →</a>
           </article>
 
           <article class="marketplace-card marketplace-card--ml">
-            <div class="marketplace-brand"><span>ML</span><div><small>Marketplace</small><strong>Mercado Livre</strong></div></div>
+            <div class="marketplace-brand"><div class="marketplace-logo marketplace-logo--ml"><img src="./assets/brand/mercado-livre.svg" alt="Mercado Livre"></div><div><small>Marketplace</small><strong>Mercado Livre</strong></div></div>
             <p>Canal preparado para receber os produtos da LR. Quando a loja estiver ativa, este botão levará diretamente para a página oficial no Mercado Livre.</p>
             <div class="marketplace-status is-pending"><i></i> Loja em preparação</div>
             {ml_btn}
           </article>
 
           <article class="marketplace-card marketplace-card--shopee">
-            <div class="marketplace-brand"><span>SP</span><div><small>Marketplace</small><strong>Shopee</strong></div></div>
+            <div class="marketplace-brand"><div class="marketplace-logo marketplace-logo--shopee"><img src="./assets/brand/shopee.svg" alt="Shopee"></div><div><small>Marketplace</small><strong>Shopee</strong></div></div>
             <p>Canal preparado para publicação dos produtos da LR. Assim que a loja estiver pronta, este botão abrirá diretamente a loja oficial na Shopee.</p>
             <div class="marketplace-status is-pending"><i></i> Loja em preparação</div>
             {shopee_btn}
@@ -198,4 +198,4 @@ page = f'''<!doctype html>
 
 replace_public_shipping_copy()
 (ROOT / "envios-correios.html").write_text(page, encoding="utf-8")
-print("Marketplace purchase channels and nationwide shipping copy applied")
+print("Marketplace purchase channels, logos and nationwide shipping copy applied")
