@@ -11,7 +11,7 @@
   overflow: hidden !important;
 }
 
-/* Hero das páginas de catálogo: mantém a foto HD inteira, sem cortar o cavalo. */
+/* Hero das páginas de catálogo: usa a versão panorâmica para preencher todo o banner. */
 body[data-page="catalog"] .catalog-hero,
 body[data-page="catalog"] .catalog-hero--order {
   min-height: 320px;
@@ -19,20 +19,20 @@ body[data-page="catalog"] .catalog-hero--order {
   align-items: center;
   background-color: #0b0907 !important;
   background-image:
-    linear-gradient(90deg, rgba(8,6,4,.90) 0%, rgba(8,6,4,.72) 42%, rgba(8,6,4,.24) 74%, rgba(8,6,4,.10) 100%),
-    linear-gradient(180deg, rgba(8,6,4,.18) 0%, rgba(8,6,4,.06) 45%, rgba(8,6,4,.34) 100%),
-    url("../hero/pronta-entrega-horse.webp") !important;
+    linear-gradient(90deg, rgba(8,6,4,.82) 0%, rgba(8,6,4,.58) 40%, rgba(8,6,4,.22) 72%, rgba(8,6,4,.08) 100%),
+    linear-gradient(180deg, rgba(8,6,4,.14) 0%, rgba(8,6,4,.05) 45%, rgba(8,6,4,.30) 100%),
+    url("../hero/pronta-entrega-horse-wide.webp") !important;
   background-repeat: no-repeat !important;
-  background-size: 100% 100%, 100% 100%, auto 96% !important;
-  background-position: center, center, right center !important;
+  background-size: 100% 100%, 100% 100%, cover !important;
+  background-position: center, center, 52% center !important;
 }
 
 @media (max-width: 768px) {
   body[data-page="catalog"] .catalog-hero,
   body[data-page="catalog"] .catalog-hero--order {
     min-height: 260px;
-    background-size: 100% 100%, 100% 100%, auto 90% !important;
-    background-position: center, center, 92% center !important;
+    background-size: 100% 100%, 100% 100%, cover !important;
+    background-position: center, center, 66% center !important;
   }
 }
 
