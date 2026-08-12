@@ -1,8 +1,49 @@
-/* Instagram oficial: perfil público renderizado pelo embed do próprio Instagram. */
+/* Instagram oficial — regras do embed legado e da grade estática com posts reais. */
 .instagram-live-section{overflow:hidden}
 .instagram-live-wrap{width:100%;max-width:980px;margin:28px auto 18px;display:flex;justify-content:center;align-items:flex-start;min-height:420px}
 .instagram-live-wrap .instagram-media{width:100%!important;max-width:980px!important;min-width:0!important;margin:0!important;background:#fff!important;border:1px solid rgba(185,133,61,.35)!important;border-radius:12px!important;overflow:hidden!important}
 .instagram-live-wrap iframe{width:100%!important;max-width:100%!important;min-width:0!important;margin:0 auto!important}
 .instagram-live-note{margin:0 auto 18px;text-align:center;color:#8e806f;font-size:.72rem;letter-spacing:.02em}
 .instagram-live-section .instagram-btn{display:flex;width:max-content;margin:0 auto}
-@media(max-width:760px){.instagram-live-wrap{min-height:360px;margin-top:20px}.instagram-live-note{padding:0 18px;font-size:.68rem}}
+
+/* Grade atual com as imagens reais baixadas do perfil público.
+   Mostra 100% de cada foto, sem recorte. */
+.instagram-section .instagram-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;
+  align-items:stretch;
+}
+.instagram-section .instagram-grid>a{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  background:#100b07;
+  border:1px solid rgba(200,148,69,.28);
+}
+.instagram-section .instagram-grid>a>img{
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  display:block;
+  background:#100b07;
+  transform:none!important;
+}
+.instagram-section .instagram-grid>a:hover>img{
+  transform:none!important;
+  filter:brightness(1.04);
+}
+
+@media(max-width:980px){
+  .instagram-section .instagram-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .instagram-live-wrap{min-height:360px;margin-top:20px}
+  .instagram-live-note{padding:0 18px;font-size:.68rem}
+  .instagram-section .instagram-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+}
