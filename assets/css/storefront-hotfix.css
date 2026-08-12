@@ -1,5 +1,16 @@
 /* Correções visuais da vitrine — carregado por último. */
 
+/* Remove completamente a antiga barra promocional em todas as páginas públicas. */
+.promo-bar {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+}
+
 /* O modal de produto usa fundo claro; force os controles nativos a também
    usarem tema claro para não herdar texto branco do tema geral escuro. */
 .product-modal-copy .variant-select,
