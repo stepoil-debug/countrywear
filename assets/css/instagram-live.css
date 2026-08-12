@@ -1,0 +1,8 @@
+/* Instagram oficial: perfil público renderizado pelo embed do próprio Instagram. */
+.instagram-live-section{overflow:hidden}
+.instagram-live-wrap{width:100%;max-width:980px;margin:28px auto 18px;display:flex;justify-content:center;align-items:flex-start;min-height:420px}
+.instagram-live-wrap .instagram-media{width:100%!important;max-width:980px!important;min-width:0!important;margin:0!important;background:#fff!important;border:1px solid rgba(185,133,61,.35)!important;border-radius:12px!important;overflow:hidden!important}
+.instagram-live-wrap iframe{width:100%!important;max-width:100%!important;min-width:0!important;margin:0 auto!important}
+.instagram-live-note{margin:0 auto 18px;text-align:center;color:#8e806f;font-size:.72rem;letter-spacing:.02em}
+.instagram-live-section .instagram-btn{display:flex;width:max-content;margin:0 auto}
+@media(max-width:760px){.instagram-live-wrap{min-height:360px;margin-top:20px}.instagram-live-note{padding:0 18px;font-size:.68rem}}
