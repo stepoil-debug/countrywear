@@ -1,0 +1,124 @@
+name: Sync real Instagram feed
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.deploy/instagram-sync.txt'
+  schedule:
+    - cron: '17 11 * * *'
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install scraper fallback
+        run: python -m pip install --disable-pip-version-check requests instaloader
+
+      - name: Download latest public Instagram images
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, sys, requests
+          from pathlib import Path
+
+          USERNAME = 'lr_countrywear'
+          BASE = f'https://www.instagram.com/{USERNAME}/'
+          OUT = Path('assets/instagram')
+          OUT.mkdir(parents=True, exist_ok=True)
+          headers = {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36',
+              'Accept': '*/*',
+              'Referer': BASE,
+              'X-IG-App-ID': '936619743392459',
+          }
+          items = []
+
+          def save_image(url, idx, shortcode):
+              r = requests.get(url, headers={'User-Agent': headers['User-Agent'], 'Referer': 'https://www.instagram.com/'}, timeout=30)
+              r.raise_for_status()
+              ct = r.headers.get('content-type','')
+              if 'image' not in ct:
+                  raise RuntimeError(f'URL did not return image: {ct}')
+              path = OUT / f'post-{idx}.jpg'
+              path.write_bytes(r.content)
+              return str(path)
+
+          try:
+              api = f'https://www.instagram.com/api/v1/users/web_profile_info/?username={USERNAME}'
+              r = requests.get(api, headers=headers, timeout=30)
+              print('web_profile_info status:', r.status_code)
+              r.raise_for_status()
+              user = r.json()['data']['user']
+              edges = user.get('edge_owner_to_timeline_media',{}).get('edges',[])
+              for edge in edges[:6]:
+                  node = edge.get('node',{})
+                  image = node.get('display_url') or node.get('thumbnail_src')
+                  code = node.get('shortcode')
+                  if image and code:
+                      idx = len(items)+1
+                      save_image(image, idx, code)
+                      items.append({'image': f'assets/instagram/post-{idx}.jpg', 'url': f'https://www.instagram.com/p/{code}/', 'shortcode': code})
+              print('API items:', len(items))
+          except Exception as e:
+              print('API method failed:', repr(e))
+
+          if len(items) < 3:
+              items = []
+              try:
+                  import instaloader
+                  L = instaloader.Instaloader(download_pictures=False, download_videos=False, download_video_thumbnails=False, save_metadata=False, compress_json=False, quiet=True)
+                  profile = instaloader.Profile.from_username(L.context, USERNAME)
+                  for post in profile.get_posts():
+                      idx = len(items)+1
+                      save_image(post.url, idx, post.shortcode)
+                      items.append({'image': f'assets/instagram/post-{idx}.jpg', 'url': f'https://www.instagram.com/p/{post.shortcode}/', 'shortcode': post.shortcode})
+                      if len(items) >= 6:
+                          break
+                  print('Instaloader items:', len(items))
+              except Exception as e:
+                  print('Instaloader failed:', repr(e))
+
+          if len(items) < 3:
+              raise SystemExit('Could not retrieve at least 3 real public Instagram posts.')
+
+          for p in OUT.glob('post-*.jpg'):
+              try:
+                  n = int(p.stem.split('-')[1])
+                  if n > len(items): p.unlink()
+              except Exception: pass
+
+          Path('data').mkdir(exist_ok=True)
+          Path('data/instagram.json').write_text(json.dumps({'username': USERNAME, 'profile': BASE, 'posts': items, 'updatedAt': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat()}, ensure_ascii=False, indent=2), encoding='utf-8')
+          PY
+
+      - name: Commit feed files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/instagram data/instagram.json
+          if git diff --cached --quiet; then
+            echo "No Instagram changes"
+          else
+            git commit -m "chore: refresh real Instagram feed"
+            git push
+          fi
+
+      - name: Publish Pages with refreshed feed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml
