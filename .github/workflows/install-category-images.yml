@@ -1,0 +1,67 @@
+name: Install HD category images
+
+on:
+  push:
+    paths:
+      - '.tmp/category/INSTALL'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebuild category images and update catalog
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, json
+
+          root = Path('.')
+          tmp = root / '.tmp' / 'category'
+          out = root / 'assets' / 'categories'
+          out.mkdir(parents=True, exist_ok=True)
+
+          names = ['camisas','botas','calcas','chapeus','cintos','jaquetas']
+          for name in names:
+              parts = sorted(tmp.glob(f'{name}-*.b64'))
+              if not parts:
+                  raise SystemExit(f'Missing chunks for {name}')
+              payload = ''.join(p.read_text().strip() for p in parts)
+              (out / f'{name}.webp').write_bytes(base64.b64decode(payload))
+
+          catalog_path = root / 'data' / 'catalog.json'
+          data = json.loads(catalog_path.read_text())
+          by_id = {c['id']: c for c in data.get('categories', [])}
+          for name in names:
+              if name in by_id:
+                  by_id[name]['image'] = f'/assets/categories/{name}.webp'
+
+          category_to_id = {
+              'Camisas':'camisas','Botas':'botas','Calças':'calcas',
+              'Chapéus':'chapeus','Cintos':'cintos','Jaquetas':'jaquetas'
+          }
+          for product in data.get('products', []):
+              cid = category_to_id.get(product.get('category'))
+              if cid:
+                  product['images'] = [f'/assets/categories/{cid}.webp']
+
+          catalog_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+
+          # Cleanup temporary transport data and this one-shot workflow.
+          import shutil
+          shutil.rmtree(tmp, ignore_errors=True)
+          wf = root / '.github' / 'workflows' / 'install-category-images.yml'
+          if wf.exists(): wf.unlink()
+          PY
+      - name: Commit final assets
+        run: |
+          git config user.name "stepoil-debug"
+          git config user.email "stepoil388@gmail.com"
+          git add -A
+          git commit -m "feat: install HD category imagery" || exit 0
+          git push
