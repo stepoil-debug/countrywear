@@ -9,6 +9,7 @@
   <title>ERP | LR Country Wear</title>
   <link rel="icon" href="assets/brand/favicon.svg">
   <link rel="stylesheet" href="assets/css/admin.css">
+  <link rel="stylesheet" href="assets/css/admin-hotfix.css">
 </head>
 <body>
   <div id="loginView" class="login-view">
@@ -75,7 +76,7 @@
         </div>
       </header>
 
-      <div class="demo-banner"><span class="demo-dot"></span><div><b>Mostruário do ERP</b><small>As alterações abaixo ficam salvas neste navegador. Na versão final, esta mesma estrutura será conectada ao Supabase e publicada no Netlify.</small></div><button data-hide-demo>×</button></div>
+      <div class="demo-banner"><span class="demo-dot"></span><div><b>Mostruário do ERP</b><small>As alterações abaixo ficam salvas neste navegador. Na versão final, esta mesma estrutura será conectada ao Supabase.</small></div><button data-hide-demo>×</button></div>
 
       <div class="page-body">
         <section id="tab-dashboard" class="tab active">
@@ -167,7 +168,7 @@
         <section id="tab-settings" class="tab">
           <div class="settings-grid">
             <form id="storeSettingsForm" class="panel form-grid"><div class="panel-head full"><div><p class="eyebrow">Operação</p><h2>Configurações da loja</h2></div></div><label>Localidade<input name="address"></label><label>Horário de atendimento<input name="serviceHours"></label><label>Estoque mínimo padrão<input name="lowStockDefault" type="number" min="0"></label><label>Moeda<select name="currency"><option value="BRL">Real brasileiro (BRL)</option></select></label><label class="check full"><input name="showStockOnStore" type="checkbox"> Exibir disponibilidade de estoque na loja</label><label class="check full"><input name="allowOrderWhenOut" type="checkbox"> Permitir sob encomenda quando o estoque zerar</label><div class="form-actions full"><button class="btn btn-primary">Salvar configurações</button></div></form>
-            <article class="panel integration-panel"><p class="eyebrow">Infraestrutura final</p><h2>Supabase + Netlify</h2><div class="integration-flow"><span class="done">Interface ERP</span><i>→</i><span>Supabase Auth</span><i>→</i><span>PostgreSQL</span><i>→</i><span>Storage</span><i>→</i><span>Netlify</span></div><p class="muted">O mostruário usa armazenamento local para aprovação. Depois, substituiremos somente a camada de dados mantendo as telas e fluxos aprovados.</p><div class="schema-list"><div><b>products</b><small>produtos e informações comerciais</small></div><div><b>product_variants</b><small>tamanho, cor, modelo e estoque</small></div><div><b>categories</b><small>categorias e subcategorias</small></div><div><b>inventory_movements</b><small>rastreabilidade de entradas e saídas</small></div><div><b>orders</b><small>pedidos e atendimentos</small></div><div><b>customers</b><small>cadastro operacional de clientes</small></div><div><b>store_settings</b><small>conteúdo e configurações</small></div><div><b>media</b><small>arquivos no Supabase Storage</small></div></div></article>
+            <article class="panel integration-panel"><p class="eyebrow">Infraestrutura final</p><h2>Supabase + Vercel</h2><div class="integration-flow"><span class="done">Interface ERP</span><i>→</i><span>Supabase Auth</span><i>→</i><span>PostgreSQL</span><i>→</i><span>Storage</span><i>→</i><span>Vercel</span></div><p class="muted">O mostruário usa armazenamento local para aprovação. Depois, substituiremos somente a camada de dados mantendo as telas e fluxos aprovados.</p><div class="schema-list"><div><b>products</b><small>produtos e informações comerciais</small></div><div><b>product_variants</b><small>tamanho, cor, modelo e estoque</small></div><div><b>categories</b><small>categorias e subcategorias</small></div><div><b>inventory_movements</b><small>rastreabilidade de entradas e saídas</small></div><div><b>orders</b><small>pedidos e atendimentos</small></div><div><b>customers</b><small>cadastro operacional de clientes</small></div><div><b>store_settings</b><small>conteúdo e configurações</small></div><div><b>media</b><small>arquivos no Supabase Storage</small></div></div></article>
             <article class="panel danger-zone full-settings"><p class="eyebrow">Demonstração</p><h2>Dados locais</h2><p class="muted">Use esta opção para retornar o ERP ao estado inicial de apresentação.</p><button id="resetDemo2" class="btn btn-danger">Restaurar dados demonstrativos</button></article>
           </div>
         </section>
