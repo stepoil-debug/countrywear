@@ -1,25 +1,193 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d0906"><meta name="robots" content="noindex,nofollow"><title>Admin | LR Country Wear</title><link rel="icon" href="../assets/brand/favicon.svg"><link rel="stylesheet" href="../assets/css/admin.css"></head>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0806">
+  <meta name="robots" content="noindex,nofollow">
+  <base href="../">
+  <title>ERP | LR Country Wear</title>
+  <link rel="icon" href="assets/brand/favicon.svg">
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
 <body>
-<div id="loginView" class="login-view">
-  <div class="login-art"><img src="../assets/brand/lr-brand.webp" alt="LR Country Wear"><div class="login-overlay"><div class="admin-brand"><strong>LR</strong><span>Country Wear</span></div><h1>Gestão simples.<br>Controle completo.</h1><p>Catálogo, estoque, encomendas, mídia e conteúdo da loja em um único painel.</p></div></div>
-  <form id="loginForm" class="login-card"><p class="eyebrow">Área administrativa</p><h2>Entrar no ERP</h2><label>Usuário<input id="username" value="admin" autocomplete="username"></label><label>Senha<input id="password" type="password" autocomplete="current-password" required></label><button class="btn primary" type="submit">Entrar</button><p id="loginError" class="form-error"></p><small>Acesso administrativo restrito.</small></form>
-</div>
+  <div id="loginView" class="login-view">
+    <div class="login-visual">
+      <img src="assets/demo/hero-user.webp" alt="LR Country Wear">
+      <div class="login-shade"></div>
+      <div class="login-copy">
+        <img src="assets/brand/lr-mark-small.webp" class="login-mark" alt="LR">
+        <span class="kicker">LR Country Wear</span>
+        <h1>Gestão simples.<br>Controle completo.</h1>
+        <p>Catálogo, estoque, pedidos, clientes e conteúdo da loja em um único lugar.</p>
+        <div class="login-features"><span>Produtos</span><span>Estoque</span><span>WhatsApp</span><span>Conteúdo</span></div>
+      </div>
+    </div>
+    <form id="loginForm" class="login-card" autocomplete="on">
+      <div class="login-card-brand"><img src="assets/brand/lr-mark-small.webp" alt="LR"><div><b>LR Country Wear</b><small>Painel administrativo</small></div></div>
+      <p class="eyebrow">Acesso restrito</p>
+      <h2>Bem-vindo ao ERP</h2>
+      <p class="muted">Entre para administrar toda a operação da loja.</p>
+      <label>Usuário<input id="username" value="admin" autocomplete="username" required></label>
+      <label>Senha<div class="password-wrap"><input id="password" type="password" autocomplete="current-password" required><button type="button" id="togglePassword" aria-label="Mostrar senha">◉</button></div></label>
+      <button class="btn btn-primary btn-wide" type="submit">Entrar no painel <span>→</span></button>
+      <p id="loginError" class="form-error"></p>
+      <small class="demo-note">Mostruário funcional · dados salvos somente neste navegador.</small>
+    </form>
+  </div>
 
-<div id="appView" class="admin-shell" hidden>
-  <aside class="sidebar"><a href="../" class="side-logo"><strong>LR</strong><span>Country Wear<small>Administração</small></span></a><nav id="sideNav"><button class="active" data-tab="dashboard">⌂ <span>Dashboard</span></button><button data-tab="products">▦ <span>Produtos</span></button><button data-tab="inventory">▤ <span>Estoque</span></button><button data-tab="categories">◇ <span>Categorias</span></button><button data-tab="trash">♲ <span>Lixeira</span></button><button data-tab="settings">⚙ <span>Loja & mídia</span></button></nav><div class="side-foot"><a href="../" target="_blank">↗ Ver loja</a><button id="logoutBtn">Sair</button></div></aside>
-  <main class="admin-main"><header class="admin-top"><div><p class="eyebrow">LR Country Wear</p><h1 id="pageTitle">Dashboard</h1></div><div class="top-actions"><span id="saveStatus" class="save-status">Sincronizado</span><button id="saveAll" class="btn primary">Salvar alterações</button></div></header>
-  <div id="notice" class="notice" hidden></div>
-  <section id="tab-dashboard" class="tab active"><div id="kpis" class="kpi-grid"></div><div class="admin-grid"><div class="panel"><div class="panel-head"><div><p class="eyebrow">Atenção</p><h2>Estoque baixo</h2></div><button class="link-btn" data-go="inventory">Ver estoque →</button></div><div id="lowStockList" class="list"></div></div><div class="panel"><div class="panel-head"><div><p class="eyebrow">Últimos movimentos</p><h2>Histórico</h2></div></div><div id="inventoryLog" class="timeline"></div></div></div></section>
-  <section id="tab-products" class="tab"><div class="toolbar"><input id="productSearch" type="search" placeholder="Buscar por produto, SKU ou categoria"><select id="productTypeFilter"><option value="all">Todos</option><option value="ready">Pronta entrega</option><option value="order">Sob encomenda</option></select><button id="newProduct" class="btn primary">+ Novo produto</button></div><div id="productTable" class="table-wrap"></div></section>
-  <section id="tab-inventory" class="tab"><div class="panel"><div class="panel-head"><div><p class="eyebrow">Controle operacional</p><h2>Estoque por variação</h2></div><button id="exportInventory" class="btn secondary">Exportar CSV</button></div><div class="toolbar"><input id="inventorySearch" type="search" placeholder="Filtrar estoque"><label class="check"><input id="onlyLow" type="checkbox"> Somente estoque baixo</label></div><div id="inventoryTable" class="table-wrap"></div></div></section>
-  <section id="tab-categories" class="tab"><div class="admin-grid"><div class="panel"><div class="panel-head"><div><p class="eyebrow">Organização</p><h2>Categorias</h2></div></div><form id="categoryForm" class="inline-form"><input id="newCategoryName" placeholder="Nova categoria" required><button class="btn primary">Adicionar</button></form><div id="categoryList" class="category-admin-list"></div></div><div class="panel"><p class="eyebrow">Como funciona</p><h2>Estrutura flexível</h2><p class="muted">Crie, renomeie, reordene ou oculte categorias. Cada produto pode ter categoria e subcategoria. As páginas da loja se atualizam automaticamente após o deploy.</p></div></div></section>
-  <section id="tab-trash" class="tab"><div class="panel"><div class="panel-head"><div><p class="eyebrow">Proteção contra erro</p><h2>Lixeira de produtos</h2></div></div><div id="trashList" class="list"></div></div></section>
-  <section id="tab-settings" class="tab"><div class="settings-grid"><form id="settingsForm" class="panel form-grid"><div class="panel-head full"><div><p class="eyebrow">Conteúdo da loja</p><h2>Identidade & atendimento</h2></div></div><label>Nome da loja<input name="storeName"></label><label>WhatsApp com DDI<input name="whatsapp" placeholder="5522981314388"></label><label>Instagram<input name="instagram" placeholder="https://instagram.com/..."></label><label>Slogan<input name="tagline"></label><label class="full">Título do banner<textarea name="heroTitle" rows="2"></textarea></label><label class="full">Subtítulo do banner<textarea name="heroSubtitle" rows="2"></textarea></label><label>Texto superior<input name="heroKicker"></label><label class="check"><input type="checkbox" name="introEnabled"> Exibir introdução</label><label class="check"><input type="checkbox" name="introAutoEnter"> Entrar automaticamente após 5s</label><label class="full">Vídeo da introdução (URL)<input name="introVideo"></label><label class="full">Áudio country da introdução (URL)<input name="introAudio"></label></form><div class="panel"><p class="eyebrow">Mídia</p><h2>Enviar para o GitHub</h2><p class="muted">Imagens são otimizadas no navegador antes do envio. Áudio e vídeo também podem ser enviados, respeitando o limite configurado.</p><label class="upload-box"><input id="mediaUpload" type="file" accept="image/*,audio/*,video/*"><strong>Selecionar mídia</strong><span>Imagem, MP3, MP4/WebM</span></label><div id="uploadResult" class="upload-result"></div></div></div></section>
-  </main>
-</div>
+  <div id="appView" class="erp-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <div class="side-head">
+        <a href="./" class="side-brand" target="_blank"><img src="assets/brand/lr-mark-small.webp" alt="LR"><div><strong>LR Country Wear</strong><small>ERP Administrativo</small></div></a>
+        <button id="sideCollapse" class="icon-btn" title="Recolher menu">‹</button>
+      </div>
+      <nav id="sideNav" class="side-nav">
+        <button class="active" data-tab="dashboard"><i>⌂</i><span>Dashboard</span></button>
+        <button data-tab="products"><i>▦</i><span>Produtos</span></button>
+        <button data-tab="inventory"><i>▤</i><span>Estoque</span><b id="stockBadge" class="nav-badge">0</b></button>
+        <button data-tab="categories"><i>◇</i><span>Categorias</span></button>
+        <button data-tab="orders"><i>◫</i><span>Pedidos</span><b id="orderBadge" class="nav-badge">0</b></button>
+        <button data-tab="customers"><i>♙</i><span>Clientes</span></button>
+        <div class="nav-divider"><span>Loja</span></div>
+        <button data-tab="content"><i>✦</i><span>Conteúdo</span></button>
+        <button data-tab="media"><i>▧</i><span>Mídias</span></button>
+        <button data-tab="reports"><i>⌁</i><span>Relatórios</span></button>
+        <div class="nav-divider"><span>Sistema</span></div>
+        <button data-tab="trash"><i>♲</i><span>Lixeira</span></button>
+        <button data-tab="settings"><i>⚙</i><span>Configurações</span></button>
+      </nav>
+      <div class="side-bottom">
+        <div class="demo-pill"><span></span><div><b>Modo demonstração</b><small>Pronto para Supabase</small></div></div>
+        <a href="./" target="_blank">↗ <span>Visualizar loja</span></a>
+        <button id="logoutBtn">⇥ <span>Sair</span></button>
+      </div>
+    </aside>
 
-<div id="productEditor" class="modal" aria-hidden="true"><form id="productForm" class="modal-card editor-card"><div class="modal-head"><div><p class="eyebrow">Produto</p><h2 id="editorTitle">Novo produto</h2></div><button type="button" data-close-editor>×</button></div><div class="editor-body"><div class="form-grid"><input type="hidden" name="id"><label>Nome<input name="name" required></label><label>SKU<input name="sku" required></label><label>Tipo<select name="type"><option value="ready">Pronta entrega</option><option value="order">Sob encomenda</option></select></label><label>Categoria<select name="category"></select></label><label>Subcategoria<input name="subcategory" placeholder="Ex.: Masculino"></label><label>Preço<input name="price" type="number" step="0.01" min="0" required></label><label>Preço anterior<input name="compareAtPrice" type="number" step="0.01" min="0"></label><label>Estoque mínimo<input name="minStock" type="number" min="0" value="2"></label><label>Prazo sob encomenda<input name="orderLeadTime" placeholder="Ex.: 15 a 20 dias"></label><label>Ordem de exibição<input name="sortOrder" type="number" min="0"></label><label class="check"><input name="active" type="checkbox" checked> Produto ativo</label><label class="check"><input name="featured" type="checkbox"> Destaque na home</label><label class="check"><input name="isNew" type="checkbox"> Marcar como lançamento</label><label class="check"><input name="allowBackorder" type="checkbox"> Aceitar encomenda sem estoque</label><label class="full">Descrição<textarea name="description" rows="4"></textarea></label></div><div class="editor-section"><div class="panel-head"><div><p class="eyebrow">Fotos</p><h3>Galeria do produto</h3></div><label class="btn secondary file-btn">+ Adicionar foto<input id="productImageUpload" type="file" accept="image/*" multiple></label></div><div id="imageGalleryEditor" class="image-gallery-editor"></div></div><div class="editor-section"><div class="panel-head"><div><p class="eyebrow">Tamanhos e cores</p><h3>Variações</h3></div><button type="button" id="addVariant" class="btn secondary">+ Variação</button></div><div id="variantsEditor" class="variants-editor"></div></div></div><div class="modal-foot"><button type="button" id="deleteProduct" class="btn danger">Mover para lixeira</button><div><button type="button" data-close-editor class="btn secondary">Cancelar</button><button type="submit" class="btn primary">Aplicar produto</button></div></div></form></div>
-<div id="toast" class="toast"></div>
-<script src="../assets/js/admin-github-bridge.js"></script><script src="../assets/js/admin.js" defer></script>
-</body></html>
+    <main class="erp-main">
+      <header class="erp-topbar">
+        <div class="topbar-left"><button id="mobileMenuBtn" class="mobile-menu-btn">☰</button><div><p class="eyebrow" id="pageEyebrow">Visão geral</p><h1 id="pageTitle">Dashboard</h1></div></div>
+        <div class="topbar-actions">
+          <button id="globalSearchBtn" class="top-search">⌕ <span>Buscar no ERP</span><kbd>Ctrl K</kbd></button>
+          <span id="saveStatus" class="save-status"><i></i> Salvo localmente</span>
+          <button id="saveDemo" class="btn btn-primary">Salvar demonstração</button>
+          <div class="profile"><button id="profileBtn"><img src="assets/brand/lr-mark-small.webp" alt="Admin"><span><b>Administrador</b><small>LR Country Wear</small></span><i>⌄</i></button><div id="profileMenu" class="profile-menu"><a href="./" target="_blank">Visualizar loja</a><button id="resetDemo">Restaurar demonstração</button><button data-logout>Sair</button></div></div>
+        </div>
+      </header>
+
+      <div class="demo-banner"><span class="demo-dot"></span><div><b>Mostruário do ERP</b><small>As alterações abaixo ficam salvas neste navegador. Na versão final, esta mesma estrutura será conectada ao Supabase e publicada no Netlify.</small></div><button data-hide-demo>×</button></div>
+
+      <div class="page-body">
+        <section id="tab-dashboard" class="tab active">
+          <div id="kpiGrid" class="kpi-grid"></div>
+          <div class="quick-actions">
+            <button data-action="new-product"><span>＋</span><div><b>Novo produto</b><small>Cadastrar no catálogo</small></div></button>
+            <button data-action="stock-entry"><span>↥</span><div><b>Entrada de estoque</b><small>Registrar reposição</small></div></button>
+            <button data-action="new-order"><span>◫</span><div><b>Novo pedido</b><small>Registrar atendimento</small></div></button>
+            <button data-go="content"><span>✦</span><div><b>Editar loja</b><small>Banners e textos</small></div></button>
+          </div>
+          <div class="dashboard-grid">
+            <article class="panel panel-span-2"><div class="panel-head"><div><p class="eyebrow">Operação</p><h2>Pedidos em andamento</h2></div><button class="text-link" data-go="orders">Ver todos →</button></div><div id="dashboardOrders" class="order-mini-list"></div></article>
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Atenção</p><h2>Estoque baixo</h2></div><button class="text-link" data-go="inventory">Abrir estoque →</button></div><div id="lowStockList" class="compact-list"></div></article>
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Distribuição</p><h2>Catálogo por categoria</h2></div></div><div id="categoryBars" class="bar-list"></div></article>
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Atividade</p><h2>Últimas alterações</h2></div></div><div id="activityList" class="timeline"></div></article>
+            <article class="panel panel-span-2"><div class="panel-head"><div><p class="eyebrow">Fluxo comercial</p><h2>Atendimentos por etapa</h2></div></div><div id="orderPipeline" class="pipeline"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-products" class="tab">
+          <div class="section-top"><div><p class="muted">Gerencie todos os produtos, variações, preços e disponibilidade.</p></div><div class="section-actions"><button id="exportProducts" class="btn btn-secondary">Exportar CSV</button><button id="newProduct" class="btn btn-primary">＋ Novo produto</button></div></div>
+          <div class="filter-card"><div class="search-field">⌕<input id="productSearch" type="search" placeholder="Buscar produto, SKU, categoria..."></div><select id="productTypeFilter"><option value="all">Todos os tipos</option><option value="ready">Pronta entrega</option><option value="order">Sob encomenda</option></select><select id="productCategoryFilter"><option value="all">Todas as categorias</option></select><select id="productStatusFilter"><option value="all">Todos os status</option><option value="active">Ativos</option><option value="hidden">Ocultos</option><option value="low">Estoque baixo</option></select></div>
+          <div id="productTable" class="table-card"></div>
+        </section>
+
+        <section id="tab-inventory" class="tab">
+          <div class="section-top"><div><p class="muted">Controle quantidade real por tamanho, cor e modelo.</p></div><div class="section-actions"><label class="btn btn-secondary file-action">Importar CSV<input id="inventoryImport" type="file" accept=".csv,text/csv"></label><button id="exportInventory" class="btn btn-secondary">Exportar CSV</button><button id="stockEntryBtn" class="btn btn-primary">＋ Movimentação</button></div></div>
+          <div id="inventorySummary" class="mini-kpis"></div>
+          <div class="filter-card"><div class="search-field">⌕<input id="inventorySearch" type="search" placeholder="Buscar produto, SKU ou variação"></div><select id="inventoryCategoryFilter"><option value="all">Todas as categorias</option></select><label class="switch-line"><input id="onlyLow" type="checkbox"><span></span>Somente estoque baixo</label></div>
+          <div id="inventoryTable" class="table-card"></div>
+          <div class="panel mt-18"><div class="panel-head"><div><p class="eyebrow">Rastreabilidade</p><h2>Histórico de movimentações</h2></div></div><div id="inventoryHistory" class="history-list"></div></div>
+        </section>
+
+        <section id="tab-categories" class="tab">
+          <div class="section-top"><p class="muted">Crie categorias e subcategorias sem alterar o código da loja.</p><button id="newCategoryBtn" class="btn btn-primary">＋ Nova categoria</button></div>
+          <div id="categoryCards" class="category-admin-grid"></div>
+        </section>
+
+        <section id="tab-orders" class="tab">
+          <div class="section-top"><div><p class="muted">Acompanhe pedidos e atendimentos originados pelo WhatsApp e Instagram.</p></div><button id="newOrderBtn" class="btn btn-primary">＋ Novo pedido</button></div>
+          <div id="orderStatusCards" class="status-kpis"></div>
+          <div class="filter-card"><div class="search-field">⌕<input id="orderSearch" type="search" placeholder="Pedido, cliente ou telefone"></div><select id="orderStatusFilter"><option value="all">Todos os status</option><option value="novo">Novo contato</option><option value="atendimento">Em atendimento</option><option value="confirmado">Confirmado</option><option value="separacao">Separação</option><option value="encomenda">Sob encomenda</option><option value="concluido">Concluído</option><option value="cancelado">Cancelado</option></select><select id="orderSourceFilter"><option value="all">Todas as origens</option><option>WhatsApp</option><option>Instagram</option><option>Manual</option></select></div>
+          <div id="ordersTable" class="table-card"></div>
+        </section>
+
+        <section id="tab-customers" class="tab">
+          <div class="section-top"><p class="muted">Base simples de clientes para facilitar o atendimento recorrente.</p><button id="newCustomerBtn" class="btn btn-primary">＋ Novo cliente</button></div>
+          <div class="filter-card"><div class="search-field">⌕<input id="customerSearch" type="search" placeholder="Nome, telefone, cidade ou Instagram"></div></div>
+          <div id="customerGrid" class="customer-grid"></div>
+        </section>
+
+        <section id="tab-content" class="tab">
+          <div class="content-grid">
+            <form id="contentForm" class="panel form-grid">
+              <div class="panel-head full"><div><p class="eyebrow">Página inicial</p><h2>Identidade e conteúdo</h2></div><a class="text-link" href="./" target="_blank">Abrir loja ↗</a></div>
+              <label>Nome da loja<input name="storeName"></label><label>Slogan<input name="tagline"></label>
+              <label>Texto superior do hero<input name="heroKicker"></label><label class="full">Título principal<textarea name="heroTitle" rows="2"></textarea></label><label class="full">Subtítulo<textarea name="heroSubtitle" rows="3"></textarea></label>
+              <label>WhatsApp com DDI<input name="whatsapp"></label><label>Instagram<input name="instagram"></label>
+              <label>Frete grátis acima de<input name="freeShippingFrom" type="number" step="0.01"></label><label>Prazo padrão de encomenda<input name="orderLeadTimeDefault"></label>
+              <label class="check full"><input name="introEnabled" type="checkbox"> Exibir introdução cinematográfica ao entrar</label>
+              <label class="check full"><input name="introAutoEnter" type="checkbox"> Avançar automaticamente após alguns segundos</label>
+              <label class="full">URL do vídeo da introdução<input name="introVideo"></label><label class="full">URL do áudio country<input name="introAudio"></label>
+              <div class="form-actions full"><button class="btn btn-primary" type="submit">Aplicar conteúdo</button></div>
+            </form>
+            <div class="content-preview panel"><p class="eyebrow">Prévia</p><h2>Hero da loja</h2><div class="hero-preview"><img src="assets/demo/hero-user.webp" alt="Prévia"><div><small id="previewKicker">MAIS QUE ESTILO.</small><strong id="previewTitle">É UM JEITO DE VIVER.</strong><p id="previewSubtitle"></p><button>COMPRE AGORA →</button></div></div><div class="info-card"><b>Na versão final</b><p>Banner, vídeo, música, WhatsApp, categorias e demais textos serão publicados diretamente pelo ERP usando Supabase Storage e banco de dados.</p></div></div>
+          </div>
+        </section>
+
+        <section id="tab-media" class="tab">
+          <div class="section-top"><p class="muted">Biblioteca de fotos, banners e arquivos da marca.</p><label class="btn btn-primary file-action">＋ Enviar mídia<input id="mediaUpload" type="file" accept="image/*" multiple></label></div>
+          <div class="filter-card"><div class="search-field">⌕<input id="mediaSearch" type="search" placeholder="Buscar mídia"></div><select id="mediaTypeFilter"><option value="all">Todos os tipos</option><option value="image">Imagens</option><option value="video">Vídeos</option><option value="audio">Áudios</option></select></div>
+          <div id="mediaGrid" class="media-grid"></div>
+        </section>
+
+        <section id="tab-reports" class="tab">
+          <div class="report-grid">
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Catálogo</p><h2>Produtos por categoria</h2></div><button id="reportProductsCsv" class="text-link">CSV ↓</button></div><div id="reportCategoryBars" class="chart-bars"></div></article>
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Estoque</p><h2>Saúde do estoque</h2></div><button id="reportInventoryCsv" class="text-link">CSV ↓</button></div><div id="stockDonut" class="donut-wrap"></div></article>
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Atendimento</p><h2>Pedidos por etapa</h2></div></div><div id="reportOrderBars" class="chart-bars"></div></article>
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Resumo</p><h2>Indicadores operacionais</h2></div></div><div id="reportHighlights" class="highlight-list"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-trash" class="tab">
+          <div class="section-top"><p class="muted">Produtos removidos ficam aqui antes da exclusão definitiva.</p></div>
+          <div class="panel"><div id="trashList" class="trash-list"></div></div>
+        </section>
+
+        <section id="tab-settings" class="tab">
+          <div class="settings-grid">
+            <form id="storeSettingsForm" class="panel form-grid"><div class="panel-head full"><div><p class="eyebrow">Operação</p><h2>Configurações da loja</h2></div></div><label>Localidade<input name="address"></label><label>Horário de atendimento<input name="serviceHours"></label><label>Estoque mínimo padrão<input name="lowStockDefault" type="number" min="0"></label><label>Moeda<select name="currency"><option value="BRL">Real brasileiro (BRL)</option></select></label><label class="check full"><input name="showStockOnStore" type="checkbox"> Exibir disponibilidade de estoque na loja</label><label class="check full"><input name="allowOrderWhenOut" type="checkbox"> Permitir sob encomenda quando o estoque zerar</label><div class="form-actions full"><button class="btn btn-primary">Salvar configurações</button></div></form>
+            <article class="panel integration-panel"><p class="eyebrow">Infraestrutura final</p><h2>Supabase + Netlify</h2><div class="integration-flow"><span class="done">Interface ERP</span><i>→</i><span>Supabase Auth</span><i>→</i><span>PostgreSQL</span><i>→</i><span>Storage</span><i>→</i><span>Netlify</span></div><p class="muted">O mostruário usa armazenamento local para aprovação. Depois, substituiremos somente a camada de dados mantendo as telas e fluxos aprovados.</p><div class="schema-list"><div><b>products</b><small>produtos e informações comerciais</small></div><div><b>product_variants</b><small>tamanho, cor, modelo e estoque</small></div><div><b>categories</b><small>categorias e subcategorias</small></div><div><b>inventory_movements</b><small>rastreabilidade de entradas e saídas</small></div><div><b>orders</b><small>pedidos e atendimentos</small></div><div><b>customers</b><small>cadastro operacional de clientes</small></div><div><b>store_settings</b><small>conteúdo e configurações</small></div><div><b>media</b><small>arquivos no Supabase Storage</small></div></div></article>
+            <article class="panel danger-zone full-settings"><p class="eyebrow">Demonstração</p><h2>Dados locais</h2><p class="muted">Use esta opção para retornar o ERP ao estado inicial de apresentação.</p><button id="resetDemo2" class="btn btn-danger">Restaurar dados demonstrativos</button></article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="productEditor" class="modal" aria-hidden="true"><form id="productForm" class="modal-card modal-xl"><div class="modal-head"><div><p class="eyebrow">Catálogo</p><h2 id="productEditorTitle">Novo produto</h2></div><button type="button" data-close="productEditor">×</button></div><div class="modal-body"><div class="editor-layout"><div class="editor-main"><div class="form-grid"><label class="full">Nome do produto<input name="name" required></label><label>SKU<input name="sku" required></label><label>Tipo<select name="type"><option value="ready">Pronta entrega</option><option value="order">Sob encomenda</option></select></label><label>Categoria<select name="category"></select></label><label>Subcategoria<input name="subcategory" placeholder="Masculino, Feminino..."></label><label>Preço<input name="price" type="number" step="0.01" min="0" required></label><label>Preço anterior<input name="compareAtPrice" type="number" step="0.01" min="0"></label><label>Estoque mínimo<input name="minStock" type="number" min="0"></label><label>Prazo sob encomenda<input name="orderLeadTime"></label><label>Ordem de exibição<input name="sortOrder" type="number" min="0"></label><label class="full">Descrição<textarea name="description" rows="4"></textarea></label></div><div class="editor-section"><div class="panel-head"><div><p class="eyebrow">Variações</p><h3>Tamanhos, cores e estoque</h3></div><button id="addVariant" type="button" class="btn btn-secondary">＋ Variação</button></div><div id="variantsEditor" class="variants-editor"></div></div></div><aside class="editor-side"><div class="product-cover" id="productCover"><span>Sem foto</span></div><label class="btn btn-secondary btn-wide file-action">Adicionar foto<input id="productImageUpload" type="file" accept="image/*" multiple></label><div id="imageGalleryEditor" class="image-gallery-editor"></div><div class="toggle-stack"><label><input name="active" type="checkbox"><span>Produto ativo</span></label><label><input name="featured" type="checkbox"><span>Destaque na home</span></label><label><input name="isNew" type="checkbox"><span>Marcar como lançamento</span></label><label><input name="allowBackorder" type="checkbox"><span>Aceitar encomenda sem estoque</span></label></div></aside></div></div><div class="modal-foot"><button id="deleteProduct" type="button" class="btn btn-danger">Mover para lixeira</button><div><button type="button" class="btn btn-secondary" data-close="productEditor">Cancelar</button><button class="btn btn-primary" type="submit">Aplicar produto</button></div></div></form></div>
+
+  <div id="stockModal" class="modal" aria-hidden="true"><form id="stockForm" class="modal-card modal-sm"><div class="modal-head"><div><p class="eyebrow">Estoque</p><h2>Registrar movimentação</h2></div><button type="button" data-close="stockModal">×</button></div><div class="modal-body form-grid one-col"><label>Produto<select id="stockProduct" required></select></label><label>Variação<select id="stockVariant" required></select></label><label>Tipo<select id="stockAction"><option value="entrada">Entrada</option><option value="saida">Saída</option><option value="ajuste">Ajuste de inventário</option><option value="devolucao">Devolução</option></select></label><label>Quantidade<input id="stockQty" type="number" min="0" value="1" required></label><label>Motivo<textarea id="stockReason" rows="3" placeholder="Ex.: reposição recebida"></textarea></label></div><div class="modal-foot"><span></span><div><button type="button" class="btn btn-secondary" data-close="stockModal">Cancelar</button><button class="btn btn-primary">Registrar</button></div></div></form></div>
+
+  <div id="categoryModal" class="modal" aria-hidden="true"><form id="categoryForm" class="modal-card modal-sm"><div class="modal-head"><div><p class="eyebrow">Catálogo</p><h2 id="categoryModalTitle">Nova categoria</h2></div><button type="button" data-close="categoryModal">×</button></div><div class="modal-body form-grid one-col"><input type="hidden" name="id"><label>Nome<input name="name" required></label><label>Subcategorias<input name="subcategories" placeholder="Masculino, Feminino, Infantil"></label><label>Imagem da categoria<input name="image" placeholder="assets/categories/..."></label><label class="check"><input name="active" type="checkbox" checked> Categoria ativa</label></div><div class="modal-foot"><span></span><div><button type="button" class="btn btn-secondary" data-close="categoryModal">Cancelar</button><button class="btn btn-primary">Salvar categoria</button></div></div></form></div>
+
+  <div id="orderModal" class="modal" aria-hidden="true"><form id="orderForm" class="modal-card"><div class="modal-head"><div><p class="eyebrow">Atendimento</p><h2 id="orderModalTitle">Novo pedido</h2></div><button type="button" data-close="orderModal">×</button></div><div class="modal-body"><div class="form-grid"><input type="hidden" name="id"><label>Cliente<input name="customerName" required></label><label>Telefone / WhatsApp<input name="phone" required></label><label>Origem<select name="source"><option>WhatsApp</option><option>Instagram</option><option>Manual</option></select></label><label>Status<select name="status"><option value="novo">Novo contato</option><option value="atendimento">Em atendimento</option><option value="confirmado">Confirmado</option><option value="separacao">Separação</option><option value="encomenda">Sob encomenda</option><option value="concluido">Concluído</option><option value="cancelado">Cancelado</option></select></label><label class="full">Itens do pedido<textarea name="itemsText" rows="5" placeholder="1x Camisa Texas Premium - G / Preto&#10;1x Cinto Longhorn - 100 cm"></textarea></label><label>Valor dos produtos<input name="total" type="number" step="0.01" min="0"></label><label class="full">Observações<textarea name="notes" rows="3"></textarea></label></div></div><div class="modal-foot"><button id="deleteOrder" type="button" class="btn btn-danger">Excluir pedido</button><div><button type="button" class="btn btn-secondary" data-close="orderModal">Cancelar</button><button class="btn btn-primary">Salvar pedido</button></div></div></form></div>
+
+  <div id="customerModal" class="modal" aria-hidden="true"><form id="customerForm" class="modal-card modal-sm"><div class="modal-head"><div><p class="eyebrow">Relacionamento</p><h2 id="customerModalTitle">Novo cliente</h2></div><button type="button" data-close="customerModal">×</button></div><div class="modal-body form-grid one-col"><input type="hidden" name="id"><label>Nome<input name="name" required></label><label>WhatsApp<input name="phone" required></label><label>Instagram<input name="instagram"></label><label>Cidade<input name="city"></label><label>Observações<textarea name="notes" rows="3"></textarea></label></div><div class="modal-foot"><span></span><div><button type="button" class="btn btn-secondary" data-close="customerModal">Cancelar</button><button class="btn btn-primary">Salvar cliente</button></div></div></form></div>
+
+  <div id="searchPalette" class="search-palette" aria-hidden="true"><div class="palette-card"><div class="palette-input">⌕<input id="globalSearch" type="search" placeholder="Buscar produtos, pedidos, clientes ou telas..."><button data-close-palette>×</button></div><div id="globalSearchResults" class="palette-results"></div><div class="palette-foot"><span>↑↓ navegar</span><span>ESC fechar</span></div></div></div>
+  <div id="mobileBackdrop" class="mobile-backdrop"></div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="assets/js/admin.js" defer></script>
+</body>
+</html>
