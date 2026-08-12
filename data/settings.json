@@ -6,9 +6,9 @@
   "heroKicker": "Mais que estilo.",
   "heroTitle": "É um jeito\nde viver.",
   "heroSubtitle": "Peças com atitude, tradição e autenticidade para quem carrega o country no peito.",
-  "introEnabled": true,
-  "introAutoEnter": true,
+  "introEnabled": false,
+  "introAutoEnter": false,
   "introVideo": "",
   "introAudio": "",
-  "updatedAt": "2026-08-12T13:32:00.000Z"
+  "updatedAt": "2026-08-12T16:31:00.000Z"
 }
