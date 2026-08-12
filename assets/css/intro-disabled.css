@@ -1,0 +1,7 @@
+/* LR Country Wear: acesso direto à loja. A apresentação inicial está desativada. */
+#intro.intro{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
