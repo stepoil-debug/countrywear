@@ -8,6 +8,7 @@ body[data-page="catalog"] .catalog-hero--order {
   min-height: 0 !important;
   height: clamp(290px, 20.833vw, 420px) !important;
   border: 0 !important;
+  border-bottom: 0 !important;
   outline: 0 !important;
   box-shadow: none !important;
   background-color: #100906 !important;
