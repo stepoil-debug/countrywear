@@ -1,1 +1,1 @@
-hero-debug-20260813
+debug marker unchanged
