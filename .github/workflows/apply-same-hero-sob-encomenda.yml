@@ -1,0 +1,29 @@
+name: Apply same hero to Sob Encomenda
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-same-hero-sob-encomenda.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Patch Sob Encomenda hero
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('sob-encomenda.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('href="./assets/css/styles.css?v=20260813-v3"', 'href="./assets/css/styles.css?v=20260813-v7"')
+          s = s.replace('background:#160d09!important;', 'background-color:#160d09!important;')
+          p.write_text(s, encoding='utf-8')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sob-encomenda.html
+          git commit -m "fix: use Pronta Entrega hero on Sob Encomenda"
+          git push origin main
