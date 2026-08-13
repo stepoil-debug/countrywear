@@ -1,0 +1,57 @@
+name: Fix Pronta Entrega inline background
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Remove inline background override and bust stylesheet cache
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          page = Path('pronta-entrega.html')
+          text = page.read_text(encoding='utf-8')
+
+          old = 'background:#160d09!important;'
+          new = 'background-color:#160d09!important;'
+          if old in text:
+              text = text.replace(old, new, 1)
+
+          text = re.sub(
+              r'\.\/assets\/css\/styles\.css\?v=[^\"\']+',
+              './assets/css/styles.css?v=20260813-v5',
+              text,
+              count=1,
+          )
+
+          page.write_text(text, encoding='utf-8')
+
+          css = Path('assets/css/catalog-hero-contain.css')
+          c = css.read_text(encoding='utf-8')
+          marker = '  border: 0 !important;\n'
+          if marker in c and 'border-bottom: 0 !important;' not in c:
+              c = c.replace(marker, marker + '  border-bottom: 0 !important;\n', 1)
+          css.write_text(c, encoding='utf-8')
+      - name: Commit correction
+        run: |
+          if git diff --quiet -- pronta-entrega.html assets/css/catalog-hero-contain.css; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pronta-entrega.html assets/css/catalog-hero-contain.css
+          git commit -m "fix: allow Pronta Entrega hero image to render"
+          git push
