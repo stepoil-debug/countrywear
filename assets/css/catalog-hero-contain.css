@@ -1,84 +1,53 @@
-/* Pronta Entrega hero — compact, reliable and uncropped. */
 body[data-page="catalog"] .catalog-hero,
 body[data-page="catalog"] .catalog-hero--order {
   position: relative !important;
   overflow: hidden !important;
   isolation: isolate !important;
-  background: #160d09 !important;
-  min-height: 400px !important;
-  height: 400px !important;
+  display: flex !important;
+  align-items: center !important;
+  min-height: 0 !important;
+  height: clamp(290px, 20.833vw, 420px) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background-color: #100906 !important;
+  background-image:
+    linear-gradient(90deg, rgba(8,6,4,.76) 0%, rgba(8,6,4,.52) 30%, rgba(8,6,4,.20) 52%, rgba(8,6,4,.03) 72%, rgba(8,6,4,0) 100%),
+    linear-gradient(180deg, rgba(8,6,4,.04) 0%, rgba(8,6,4,.02) 58%, rgba(8,6,4,.20) 100%),
+    url("../hero/pronta-entrega-hero-final-2400.webp?v=20260813-final4") !important;
+  background-repeat: no-repeat, no-repeat, no-repeat !important;
+  background-size: 100% 100%, 100% 100%, cover !important;
+  background-position: center center, center center, center center !important;
 }
-
-body[data-page="catalog"] .catalog-hero::before,
-body[data-page="catalog"] .catalog-hero--order::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: -18px !important;
-  z-index: 0 !important;
-  background: #160d09 url("../hero/pronta-entrega-horse-wide.webp?v=20260813-restore1") center center / cover no-repeat !important;
-  filter: blur(14px) brightness(.50) saturate(.90) !important;
-  transform: scale(1.04) !important;
-  pointer-events: none !important;
-}
-
 body[data-page="catalog"] .catalog-hero [data-hero-inline-v3],
-body[data-page="catalog"] .catalog-hero--order [data-hero-inline-v3] {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  object-position: center center !important;
-  z-index: 1 !important;
-  pointer-events: none !important;
-}
-
-body[data-page="catalog"] .catalog-hero::after,
-body[data-page="catalog"] .catalog-hero--order::after,
+body[data-page="catalog"] .catalog-hero [data-hero-shade-v3],
 body[data-page="catalog"] .catalog-hero .catalog-hero-bg-final,
 body[data-page="catalog"] .catalog-hero .catalog-hero-shade-final,
+body[data-page="catalog"] .catalog-hero--order [data-hero-inline-v3],
+body[data-page="catalog"] .catalog-hero--order [data-hero-shade-v3],
 body[data-page="catalog"] .catalog-hero--order .catalog-hero-bg-final,
 body[data-page="catalog"] .catalog-hero--order .catalog-hero-shade-final {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+body[data-page="catalog"] .catalog-hero::before,
+body[data-page="catalog"] .catalog-hero::after,
+body[data-page="catalog"] .catalog-hero--order::before,
+body[data-page="catalog"] .catalog-hero--order::after {
   content: none !important;
+  display: none !important;
 }
-
-body[data-page="catalog"] .catalog-hero [data-hero-shade-v3],
-body[data-page="catalog"] .catalog-hero--order [data-hero-shade-v3] {
-  display: block !important;
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 2 !important;
-  pointer-events: none !important;
-  background: linear-gradient(90deg, rgba(8,6,4,.72) 0%, rgba(8,6,4,.48) 31%, rgba(8,6,4,.18) 53%, rgba(8,6,4,.03) 74%, rgba(8,6,4,0) 100%) !important;
-}
-
 body[data-page="catalog"] .catalog-hero > .container,
 body[data-page="catalog"] .catalog-hero--order > .container {
   position: relative !important;
-  z-index: 3 !important;
+  z-index: 2 !important;
 }
-
-@media (max-width: 1100px) {
-  body[data-page="catalog"] .catalog-hero,
-  body[data-page="catalog"] .catalog-hero--order {
-    min-height: 330px !important;
-    height: 330px !important;
-  }
-}
-
 @media (max-width: 768px) {
   body[data-page="catalog"] .catalog-hero,
   body[data-page="catalog"] .catalog-hero--order {
-    min-height: 260px !important;
-    height: 260px !important;
-  }
-
-  body[data-page="catalog"] .catalog-hero [data-hero-inline-v3],
-  body[data-page="catalog"] .catalog-hero--order [data-hero-inline-v3] {
-    object-position: 68% center !important;
+    height: 270px !important;
+    background-size: 100% 100%, 100% 100%, auto 100% !important;
+    background-position: center center, center center, 72% center !important;
   }
 }
