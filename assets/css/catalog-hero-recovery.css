@@ -1,0 +1,49 @@
+/* Recovery final: use the verified hero asset directly and hide previous experimental layers. */
+body[data-page="catalog"] .catalog-hero,
+body[data-page="catalog"] .catalog-hero--order {
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 320px !important;
+  display: flex !important;
+  align-items: center !important;
+  background-color: #120b08 !important;
+  background-image:
+    linear-gradient(90deg, rgba(8,6,4,.72) 0%, rgba(8,6,4,.46) 38%, rgba(8,6,4,.16) 68%, rgba(8,6,4,.04) 100%),
+    linear-gradient(180deg, rgba(8,6,4,.08) 0%, rgba(8,6,4,.02) 50%, rgba(8,6,4,.22) 100%),
+    url("../hero/pronta-entrega-horse.webp?v=20260813-recovery1") !important;
+  background-repeat: no-repeat, no-repeat, no-repeat !important;
+  background-size: 100% 100%, 100% 100%, cover !important;
+  background-position: center, center, center 48% !important;
+}
+
+/* Remove the layers introduced during the previous hero experiments. */
+body[data-page="catalog"] .catalog-hero-bg-final,
+body[data-page="catalog"] .catalog-hero-shade-final,
+body[data-page="catalog"] .catalog-hero--order .catalog-hero-bg-final,
+body[data-page="catalog"] .catalog-hero--order .catalog-hero-shade-final {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+body[data-page="catalog"] .catalog-hero::before,
+body[data-page="catalog"] .catalog-hero::after,
+body[data-page="catalog"] .catalog-hero--order::before,
+body[data-page="catalog"] .catalog-hero--order::after {
+  content: none !important;
+  display: none !important;
+}
+
+body[data-page="catalog"] .catalog-hero > .container,
+body[data-page="catalog"] .catalog-hero--order > .container {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+@media (max-width: 768px) {
+  body[data-page="catalog"] .catalog-hero,
+  body[data-page="catalog"] .catalog-hero--order {
+    min-height: 260px !important;
+    background-position: center, center, 62% center !important;
+  }
+}
