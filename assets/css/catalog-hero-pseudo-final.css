@@ -1,0 +1,69 @@
+/* Final catalog hero layer: renders independently of legacy inline/background experiments. */
+body[data-page="catalog"] .catalog-hero,
+body[data-page="catalog"] .catalog-hero--order {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+/* Hide the inline hero layers injected by older workflows. */
+body[data-page="catalog"] .catalog-hero [data-hero-inline-v3],
+body[data-page="catalog"] .catalog-hero [data-hero-shade-v3],
+body[data-page="catalog"] .catalog-hero .catalog-hero-bg-final,
+body[data-page="catalog"] .catalog-hero .catalog-hero-shade-final,
+body[data-page="catalog"] .catalog-hero--order [data-hero-inline-v3],
+body[data-page="catalog"] .catalog-hero--order [data-hero-shade-v3],
+body[data-page="catalog"] .catalog-hero--order .catalog-hero-bg-final,
+body[data-page="catalog"] .catalog-hero--order .catalog-hero-shade-final {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Photo layer. The original high-resolution photo is the second layer, so it
+   automatically remains visible if the wide asset cannot be decoded. */
+body[data-page="catalog"] .catalog-hero::before,
+body[data-page="catalog"] .catalog-hero--order::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background-color: #160d09 !important;
+  background-image:
+    url("../hero/pronta-entrega-horse-wide.webp?v=20260813-pseudo2"),
+    url("../hero/pronta-entrega-horse.webp?v=20260813-pseudo2") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: cover, cover !important;
+  background-position: center center, center 46% !important;
+}
+
+/* Readability layer. */
+body[data-page="catalog"] .catalog-hero::after,
+body[data-page="catalog"] .catalog-hero--order::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(90deg, rgba(8,6,4,.72) 0%, rgba(8,6,4,.46) 38%, rgba(8,6,4,.14) 68%, rgba(8,6,4,.02) 100%),
+    linear-gradient(180deg, rgba(8,6,4,.08) 0%, rgba(8,6,4,.02) 50%, rgba(8,6,4,.22) 100%) !important;
+}
+
+body[data-page="catalog"] .catalog-hero > .container,
+body[data-page="catalog"] .catalog-hero--order > .container {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+@media (max-width: 768px) {
+  body[data-page="catalog"] .catalog-hero::before,
+  body[data-page="catalog"] .catalog-hero--order::before {
+    background-position: 62% center, 62% center !important;
+  }
+}
