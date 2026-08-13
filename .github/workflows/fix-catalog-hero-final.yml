@@ -1,0 +1,34 @@
+name: Fix catalog hero final
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Patch catalog hero
+        run: python scripts/fix_catalog_hero_final.py
+      - name: Commit final hero markup
+        run: |
+          if git diff --quiet -- pronta-entrega.html sob-encomenda.html; then
+            echo "No catalog hero changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pronta-entrega.html sob-encomenda.html
+          git commit -m "fix: render catalog hero as direct image"
+          git push
