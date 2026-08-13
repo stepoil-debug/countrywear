@@ -1,0 +1,99 @@
+name: Install final Pronta Entrega hero
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/hero-source-final/READY'
+permissions:
+  contents: write
+jobs:
+  install:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebuild approved hero image
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat assets/hero-source-final/chunk-* | tr -d '\n\r ' | base64 --decode > assets/hero/pronta-entrega-hero-final-2400.webp
+          test "$(stat -c%s assets/hero/pronta-entrega-hero-final-2400.webp)" -eq 59548
+          file assets/hero/pronta-entrega-hero-final-2400.webp | grep -qi 'Web/P'
+      - name: Apply clean hero CSS
+        shell: bash
+        run: |
+          cat > assets/css/catalog-hero-contain.css <<'CSS'
+          body[data-page="catalog"] .catalog-hero,
+          body[data-page="catalog"] .catalog-hero--order {
+            position: relative !important;
+            overflow: hidden !important;
+            isolation: isolate !important;
+            display: flex !important;
+            align-items: center !important;
+            min-height: 0 !important;
+            height: clamp(290px, 20.833vw, 420px) !important;
+            border: 0 !important;
+            outline: 0 !important;
+            box-shadow: none !important;
+            background-color: #100906 !important;
+            background-image:
+              linear-gradient(90deg, rgba(8,6,4,.76) 0%, rgba(8,6,4,.52) 30%, rgba(8,6,4,.20) 52%, rgba(8,6,4,.03) 72%, rgba(8,6,4,0) 100%),
+              linear-gradient(180deg, rgba(8,6,4,.04) 0%, rgba(8,6,4,.02) 58%, rgba(8,6,4,.20) 100%),
+              url("../hero/pronta-entrega-hero-final-2400.webp?v=20260813-final4") !important;
+            background-repeat: no-repeat, no-repeat, no-repeat !important;
+            background-size: 100% 100%, 100% 100%, cover !important;
+            background-position: center center, center center, center center !important;
+          }
+          body[data-page="catalog"] .catalog-hero [data-hero-inline-v3],
+          body[data-page="catalog"] .catalog-hero [data-hero-shade-v3],
+          body[data-page="catalog"] .catalog-hero .catalog-hero-bg-final,
+          body[data-page="catalog"] .catalog-hero .catalog-hero-shade-final,
+          body[data-page="catalog"] .catalog-hero--order [data-hero-inline-v3],
+          body[data-page="catalog"] .catalog-hero--order [data-hero-shade-v3],
+          body[data-page="catalog"] .catalog-hero--order .catalog-hero-bg-final,
+          body[data-page="catalog"] .catalog-hero--order .catalog-hero-shade-final {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+          }
+          body[data-page="catalog"] .catalog-hero::before,
+          body[data-page="catalog"] .catalog-hero::after,
+          body[data-page="catalog"] .catalog-hero--order::before,
+          body[data-page="catalog"] .catalog-hero--order::after {
+            content: none !important;
+            display: none !important;
+          }
+          body[data-page="catalog"] .catalog-hero > .container,
+          body[data-page="catalog"] .catalog-hero--order > .container {
+            position: relative !important;
+            z-index: 2 !important;
+          }
+          @media (max-width: 768px) {
+            body[data-page="catalog"] .catalog-hero,
+            body[data-page="catalog"] .catalog-hero--order {
+              height: 270px !important;
+              background-size: 100% 100%, 100% 100%, auto 100% !important;
+              background-position: center center, center center, 72% center !important;
+            }
+          }
+          CSS
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('assets/css/styles.css')
+          s = p.read_text(encoding='utf-8')
+          s = re.sub(r'@import url\("\./catalog-hero-contain\.css\?v=[^"\)]*"\);', '@import url("./catalog-hero-contain.css?v=20260813-final4");', s)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Clean temporary chunks
+        run: rm -rf assets/hero-source-final
+      - name: Commit final hero
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/hero/pronta-entrega-hero-final-2400.webp assets/css/catalog-hero-contain.css assets/css/styles.css assets/hero-source-final
+          git commit -m 'fix: install approved Pronta Entrega hero without crop or border'
+          git push
