@@ -1,0 +1,59 @@
+body[data-page="catalog"] .catalog-hero,
+body[data-page="catalog"] .catalog-hero--order {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  background: #160d09 !important;
+}
+
+body[data-page="catalog"] .catalog-hero [data-hero-inline-v3],
+body[data-page="catalog"] .catalog-hero [data-hero-shade-v3],
+body[data-page="catalog"] .catalog-hero .catalog-hero-bg-final,
+body[data-page="catalog"] .catalog-hero .catalog-hero-shade-final,
+body[data-page="catalog"] .catalog-hero--order [data-hero-inline-v3],
+body[data-page="catalog"] .catalog-hero--order [data-hero-shade-v3],
+body[data-page="catalog"] .catalog-hero--order .catalog-hero-bg-final,
+body[data-page="catalog"] .catalog-hero--order .catalog-hero-shade-final {
+  display: none !important;
+}
+
+body[data-page="catalog"] .catalog-hero::before,
+body[data-page="catalog"] .catalog-hero--order::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -14px !important;
+  z-index: 0 !important;
+  background: #160d09 url("../hero/pronta-entrega-horse-wide.webp?v=fit1") center center / cover no-repeat !important;
+  filter: blur(10px) brightness(.55) saturate(.82) !important;
+  transform: scale(1.035) !important;
+  pointer-events: none !important;
+}
+
+body[data-page="catalog"] .catalog-hero::after,
+body[data-page="catalog"] .catalog-hero--order::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  background-image:
+    linear-gradient(90deg, rgba(8,6,4,.82) 0%, rgba(8,6,4,.66) 31%, rgba(8,6,4,.34) 49%, rgba(8,6,4,.10) 66%, rgba(8,6,4,.02) 100%),
+    url("../hero/pronta-entrega-horse-wide.webp?v=fit1") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: 100% 100%, auto 100% !important;
+  background-position: center center, right center !important;
+  pointer-events: none !important;
+}
+
+body[data-page="catalog"] .catalog-hero > .container,
+body[data-page="catalog"] .catalog-hero--order > .container {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+@media (max-width: 768px) {
+  body[data-page="catalog"] .catalog-hero::after,
+  body[data-page="catalog"] .catalog-hero--order::after {
+    background-size: 100% 100%, auto 100% !important;
+    background-position: center center, 72% center !important;
+  }
+}
